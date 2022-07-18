@@ -1,0 +1,11 @@
+{
+  "name": "@kolab/fuse",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "~13.1.2",
+    "@angular/core": "~13.1.2"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

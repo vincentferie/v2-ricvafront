@@ -1,0 +1,172 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Creer un entrepôt
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <form class="p-4 overflow-hidden" [formGroup]="form">
+
+          <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+
+            <!-- LIBELLE -->
+            <mat-form-field class="w-full">
+              <mat-label>Libellé</mat-label>
+              <input
+                matInput
+                #input
+                placeholder="Libellé"
+                [formControlName]="'libelle'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('libelle').hasError('required')">
+                {{ errosForm("Le libellé") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- SUPERFICIE -->
+            <mat-form-field class="w-full">
+              <mat-label>Superficie</mat-label>
+              <input type="number" matInput
+                placeholder="Superficie"
+                [formControlName]="'superficie'"
+                [errorStateMatcher]="matcher">
+              <mat-error *ngIf="form.get('superficie').hasError('required')">
+                {{ errosForm("La superficie", "F") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- LONGITUDE -->
+            <mat-form-field class="w-full">
+              <mat-label>Longitude</mat-label>
+              <input type="number" matInput
+                placeholder="Longitude"
+                [formControlName]="'coordonneex'"
+                [errorStateMatcher]="matcher">
+              <mat-error *ngIf="form.get('coordonneex').hasError('required')">
+                {{ errosForm("La longitude", "F") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- LATITUDE -->
+            <mat-form-field class="w-full">
+              <mat-label>Latitude</mat-label>
+              <input type="number" matInput
+                placeholder="Latitude"
+                [formControlName]="'coordonneey'"
+                [errorStateMatcher]="matcher">
+              <mat-error *ngIf="form.get('coordonneey').hasError('required')">
+                {{ errosForm("La latitude", "F") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- PLACER -->
+            <mat-form-field class="w-full">
+              <mat-label>Placer</mat-label>
+              <input type="text" matInput
+                placeholder="Placer"
+                [formControlName]="'site_id'"
+                [errorStateMatcher]="matcher"
+                [matAutocomplete]="site_id">
+
+              <mat-autocomplete (optionSelected)="setValue($event)" #site_id="matAutocomplete">
+                <mat-option *ngFor="let element of filterSite" [value]="element?.libelle" [id]="element?.id">
+                  {{element?.libelle}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('site_id').hasError('required')">
+                {{ errosForm("Le placer") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex justify-end mt-8">
+            <button
+              class="px-4 rounded-lg"
+              mat-flat-button
+              [color]="'primary'"
+              [disabled]="form.invalid"
+              type="button"
+              (click)="confirmeSubmit()"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+        <!-- FIN FORM -->
+
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

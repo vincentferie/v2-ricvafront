@@ -1,0 +1,306 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a (click)="toBack()" class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BOUTTON RETOUR -->
+        <div class="flex items-center ml-6">
+          <button
+            [matTooltip]="'Supprimer'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary text-white mr-1"
+            (click)="_delete(conteneur?.id)"
+          >
+            Supprimer
+            <mat-icon
+              class="icon-size-5 ml-2"
+              [svgIcon]="'heroicons_outline:trash'"
+            ></mat-icon>
+          </button>
+          <button
+            [matTooltip]="'Retour à l\'historique'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary-50 text-primary"
+            (click)="toBack()"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:chevron-left'"
+            ></mat-icon>
+            Retour
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              (click)="toBack()"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Retour</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT GOES HERE -->
+    <div
+      class="lg:h-250 lg:min-h-250 lg:max-h-250 md:h-250 md:min-h-250 md:max-h-250 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Détails du conteneur : N° {{ conteneur?.numero }}
+        </div>
+      </div>
+
+      <div class="rid grid-rows-3 grid-flow-col sm:grid-cols-2 gap-1 w-full mt-8 sm:mt-4">
+        <div class="grid sm:grid-cols-2 gap-2 w-full mt-8 sm:mt-4">
+
+          <!-- COL GAUCHE -->
+          <div class="col-span-1">
+            <!-- INFORMATION -->
+            <div class="row-start-2 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Informations
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!infoAdd" (click)="_infoAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_submitInfo()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_infoAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="infoForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Numéro conteneur </p>
+                    <p class="font-semibold p-3">Booking </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ conteneur?.numero }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'numero'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ conteneur?.booking?.numero_reel }}</span>
+                      <select *ngIf="infoAdd" [formControlName]="'booking_id'" id="booking_id" class="w-full">
+                        <option *ngFor="let item of bookings" [value]="item?.id">
+                          {{ item?.numero_reel }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Entrepôt </p>
+                    <p class="font-semibold p-3">Type TC </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ conteneur?.entrepot?.libelle }}</span>
+                      <select *ngIf="infoAdd" [formControlName]="'entrepot_id'" id="entrepot_id" class="w-full">
+                        <option *ngFor="let item of entrepots" [value]="item?.entrepot_id">
+                          {{ item?.entrepot?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ conteneur?.type_tc }}</span>
+                      <select *ngIf="infoAdd" [formControlName]="'type_tc'" id="type_tc" class="w-full">
+                        <option *ngFor="let item of stateType" [value]="item?.value">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Capacité </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ conteneur?.capacite }}</span>
+                      <input *ngIf="infoAdd" type="number" [formControlName]="'capacite'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- COL DROIT -->
+          <div class="col-span-1">
+            <!-- PLOMB -->
+            <div class="row-start-2 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Plomb
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!plombAdd" (click)="_plombAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="plomb ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="plomb ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="plombAdd" (click)="_submitPlomb(plomb ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="plombAdd" (click)="_plombAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="plombAdd && plomb" (click)="_deletePlomb(plomb?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="plombForm">
+                <div *ngIf="plombAdd || plomb" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">En lettre </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ conteneur?.numero }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!plombAdd">{{ plomb?.pb_lettre }}</span>
+                      <input *ngIf="plombAdd" type="text" [formControlName]="'pb_lettre'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="plombAdd || plomb" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">En chiffre </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!plombAdd && plomb">{{ plomb?.pb_chiffre }}</span>
+                      <input *ngIf="plombAdd" type="number" [formControlName]="'pb_chiffre'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!plombAdd && !plomb" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

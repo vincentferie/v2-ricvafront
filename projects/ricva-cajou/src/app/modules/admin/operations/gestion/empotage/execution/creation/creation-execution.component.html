@@ -1,0 +1,430 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Creer une execution
+          </div>
+
+          <!-- ALERT WARNING -->
+          <div class="items-center">
+            <fuse-alert
+              [type]="'warning'"
+              [appearance]="'fill'">
+              <span fuseAlertTitle>Capacité du conteneur: 310 sacs</span>
+              Le conteneur est plein, vous ne pouvez plus ajouter de sacs.
+            </fuse-alert>
+          </div>
+        </div>
+
+        <!-- FORMS -->
+        <form class="p-4 overflow-hidden" [formGroup]="form">
+          <mat-vertical-stepper
+            [linear]="true"
+            #stepper
+            #verticalStepper
+            orientation="vertical"
+            (selectionChange)="selectionChange($event)"
+          >
+            <!-- STEP 1 -->
+            <mat-step
+              [editable]="isEditable"
+              [stepControl]="form!"
+              #verticalStepperStep1
+            >
+              <ng-template matStepLabel>
+                <h3 class="title">Prérequis</h3>
+                <span class="sub-title"
+                  >Identification de la fiche de transfert</span
+                >
+              </ng-template>
+
+              <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+                <!-- PLAN D'EMPOTAGE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Plan d'empotage</mat-label>
+                  <mat-select
+                    [formControlName]="'plan'"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <ng-container *ngIf="plans$ | async as lists">
+                      <ng-container *ngFor="let element of lists">
+                        <mat-option value="{{ element.id }}">{{
+                          element?.id
+                        }}</mat-option>
+                      </ng-container>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="form.get('plan').hasError('required')">
+                    {{ errosForm("Le plan d'empotage") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- BUTTON AJOUT CONTENEUR -->
+                <div>
+                  <button
+                    [matTooltip]="'Ajouter un conteneur'"
+                    [matTooltipPosition]="'above'"
+                    class="px-4 mt-7 rounded-lg text-primary bg-primary-50"
+                    mat-flat-button
+                    type="button"
+                    (click)="_addOption()"
+                  >
+                    <mat-icon
+                      class="icon-size-4.5"
+                      [svgIcon]="'heroicons_outline:plus'"
+                    ></mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <!-- OPTIONS FORMS -->
+              <div formArrayName="options">
+                <div
+                  *ngFor="let opt of option.controls; let i=index" [formGroupName]="i"
+                  class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4 border rounded p-2 m-2 bg-gray-50"
+                >
+                  <!-- CONTENEUR -->
+                  <mat-form-field class="w-full">
+                    <mat-label>Conteneur {{i+1}}</mat-label>
+                    <mat-select
+                      id="conteneur{{i}}"
+                      [formControlName]="'conteneur'"
+                      [errorStateMatcher]="matcher"
+                    >
+                      <ng-container *ngIf="conteneurs$ | async as lists">
+                        <ng-container *ngFor="let element of lists">
+                          <mat-option value="{{ element.id }}">{{
+                            element?.numero
+                          }}</mat-option>
+                        </ng-container>
+                      </ng-container>
+                    </mat-select>
+                    <mat-error *ngIf="opt.get('conteneur').hasError('required')">
+                      {{ errosForm("Le conteneur") }}
+                    </mat-error>
+                  </mat-form-field>
+
+                  <!-- BUTTONS -->
+                  <div>
+                    <!-- SUPPRIMER CONTENEUR -->
+                    <button
+                      [matTooltip]="'Supprimer un conteneur'"
+                      [matTooltipPosition]="'above'"
+                      class="px-4 mt-7 rounded-lg bg-primary-500 text-white"
+                      mat-flat-button
+                      type="button"
+                      (click)="_deleteOption(opt)"
+                    >
+                      <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_outline:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+
+                  <!-- SOUS BLOCK LOTS -->
+                  <div formArrayName="lots">
+                    <div class="flex flex-row gap-2">
+                      <div class="basis-11/12">
+                        <!-- ALERT WARNING -->
+                        <fuse-alert
+                          [type]="'info'"
+                          [appearance]="'border'">
+                          <span fuseAlertTitle>{{opt.get('nbr')?.value}} / {{nbr}} sacs</span>
+                        </fuse-alert>
+                      </div>
+                      <div class="basis-1/5">
+                        <!-- AJOUT LOT -->
+                        <button
+                          [matTooltip]="'Ajouter un lot'"
+                          [matTooltipPosition]="'above'"
+                          class="px-4 mt-2 rounded-lg text-primary bg-primary-50"
+                          mat-flat-button
+                          type="button"
+                          (click)="_addLot(i)"
+                        >
+                          <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_outline:plus'"
+                          ></mat-icon>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngFor="let item of lot(i).controls let j=index" [formGroupName]="j"
+                      class="grid lg:grid-cols-3 gap-1 w-full mt-8 sm:mt-4 m-2"
+                    >
+                      <div class="flex flex-row gap-2">
+                        <!-- LOT -->
+                        <mat-form-field class="w-full basis-6/12">
+                          <mat-label>Lot</mat-label>
+                          <mat-select
+                            id="lot{{j}}"
+                            [formControlName]="'lot'"
+                            [errorStateMatcher]="matcher"
+                          >
+                            <ng-container *ngIf="lots$ | async as lists">
+                              <ng-container *ngFor="let element of lists">
+                                <mat-option value="{{ element.id }}">{{
+                                  element?.numero_lot
+                                }}</mat-option>
+                              </ng-container>
+                            </ng-container>
+                          </mat-select>
+                          <mat-error *ngIf="item.get('lot').hasError('required')">
+                            {{ errosForm("Le lot") }}
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- NOMBRE DE SAC -->
+                        <mat-form-field class="w-full basis-full">
+                          <mat-label>Nombre de sac</mat-label>
+                          <input
+                            matInput
+                            #input
+                            id="sac{{j}}"
+                            type="number"
+                            [min]="0"
+                            placeholder="Nombre de sac"
+                            [formControlName]="'sac'"
+                            [errorStateMatcher]="matcher"
+                            (change)="_onSacCalcul(item, opt)"
+                          />
+                          <mat-error *ngIf="item.get('sac').hasError('required')">
+                            {{ errosForm("Le nombre de sac") }}
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- DELETE LOT -->
+                        <button
+                          [matTooltip]="'Ajouter un lot'"
+                          [matTooltipPosition]="'above'"
+                          class="px-4 mt-7 rounded-lg bg-primary text-white"
+                          mat-flat-button
+                          type="button"
+                          (click)="_deleteLot(i, item)"
+                        >
+                          <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_outline:trash'"
+                          ></mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- FIN OPTIONS FORMS -->
+
+              <div class="flex justify-end mt-8">
+                <button
+                  class="px-4 rounded-lg"
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="form.invalid"
+                  type="button"
+                  matStepperNext
+                >
+                  Suivant
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-right'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </mat-step>
+
+            <!-- STEP 2 -->
+            <mat-step
+              [editable]="isEditable"
+              [stepControl]="form!"
+              #verticalStepperStep2
+            >
+              <ng-template matStepLabel>
+                <h3 class="title">Récapitulatif</h3>
+                <span class="sub-title">Récapitulatif des éléments</span>
+              </ng-template>
+
+              <!-- CONTENT GOES HERE -->
+              <div class="h-80 min-h-80 max-h-80 mt-8 sm:mt-4"
+              fuseScrollbar
+              [fuseScrollbarOptions]="{
+                wheelPropagation: false,
+                suppressScrollX: true
+              }">
+                <div *ngFor="let opt of option.controls; let i=index">
+                  <!-- BADGE # -->
+                  <div class="p-3 row-start-1">
+                    <mat-chip-list aria-label="Fish selection">
+                      <mat-chip class="bg-primary-200 text-gray-900" color="primary" selected>Conteneur N°0</mat-chip>
+                    </mat-chip-list>
+                  </div>
+
+                  <!-- TABLE CONTENEUR -->
+                  <table class="min-w-full">
+                    <thead class="border-b bg-gray-50 text-gray-900">
+                      <tr>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          N° Lot
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Qualité
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Last
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Nombre de sacs
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Nombre de sacs restants
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of lot(i).controls let j=index" class="border-b text-gray-900">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ j }}</td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          12
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item.get('sac')?.value }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          223
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          223
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          <button
+                            class="px-4 rounded-lg text-primary bg-primary-50"
+                            mat-flat-button
+                            type="button"
+                            (click)="_deleteLot(i, item); _onSacCalcul(item, opt)"
+                          >
+                            <mat-icon
+                              class="icon-size-5"
+                              [svgIcon]="'heroicons_outline:x'"
+                            ></mat-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- FIN TABLE CONTENEUR -->
+                </div>
+              </div>
+
+              <div class="flex justify-between mt-8">
+                <button
+                  class="px-4 rounded-lg text-primary bg-primary-50"
+                  mat-flat-button
+                  type="button"
+                  matStepperPrevious
+                >
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-left'"
+                  ></mat-icon>
+                  Précedent
+                </button>
+
+                <button
+                  class="px-4 rounded-lg"
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="form.invalid"
+                  type="button"
+                  (click)="confirmeSubmit()"
+                >
+                  Suivant
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-right'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </mat-step>
+
+            <ng-template matStepperIcon="done">
+              <mat-icon>done</mat-icon>
+            </ng-template>
+          </mat-vertical-stepper>
+        </form>
+        <!-- FIN FORMS -->
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

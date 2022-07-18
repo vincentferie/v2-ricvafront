@@ -1,0 +1,256 @@
+// dechargements
+export const dechargementsCashew = [
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  },
+  {
+    id: '7eb7c859-1347-4317-96b6-9476a7e28a3c',
+    num_fiche: '00047474',
+    campagne_id: '00047474',
+    speculation_id: 'Cajou',
+    date_dechargement: '25/01/2022',
+    superviseur_id: 'KONAN Sylvere',
+    provenance_id: 'Katiola',
+    entrepot_id: 'BASSAM PEAGE',
+    validity: true
+  }
+];

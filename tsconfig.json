@@ -1,0 +1,49 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "paths": {
+      "@kolab/fuse/*": ["projects/fuse/*", "projects/fuse/"],
+      "@kolab/fuse/": ["dist/fuse/*", "dist/fuse"],
+      "@authentification/*": [
+        "projects/authentification/*",
+        "projects/authentification/"
+      ],
+      "@authentification/": [
+        "dist/authentification/*",
+        "dist/authentification"
+      ],
+      "@ricva-cajou/*": ["projects/ricva-cajou/*", "projects/ricva-cajou"],
+      "@ricva-cajou/": ["dist/ricva-cajou/*", "dist/ricva-cajou"]
+    },
+    "noPropertyAccessFromIndexSignature": true,
+    "strictPropertyInitialization": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": ["es2020", "dom"],
+    "allowJs": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

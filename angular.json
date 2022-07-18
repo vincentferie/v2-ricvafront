@@ -1,0 +1,332 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ricva-cajou": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/ricva-cajou",
+      "sourceRoot": "projects/ricva-cajou/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ricva-cajou",
+            "index": "projects/ricva-cajou/src/index.html",
+            "main": "projects/ricva-cajou/src/main.ts",
+            "polyfills": "projects/ricva-cajou/src/polyfills.ts",
+            "tsConfig": "projects/ricva-cajou/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "apexcharts",
+              "highlight.js",
+              "crypto-js/enc-utf8",
+              "crypto-js/hmac-sha256",
+              "crypto-js/enc-base64"
+            ],
+            "assets": [
+              "projects/ricva-cajou/src/favicon-16x16.png",
+              "projects/ricva-cajou/src/favicon-32x32.png",
+              "projects/ricva-cajou/src/assets",
+              {
+                "glob": "projects/ricva-cajou/src/_redirects",
+                "input": "src",
+                "output": "/"
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ricva-cajou/src/@fuse/styles"]
+            },
+            "styles": [
+              "projects/ricva-cajou/src/@fuse/styles/tailwind.scss",
+              "projects/ricva-cajou/src/@fuse/styles/themes.scss",
+              "projects/ricva-cajou/src/styles/vendors.scss",
+              "projects/ricva-cajou/src/@fuse/styles/main.scss",
+              "projects/ricva-cajou/src/styles/styles.scss",
+              "projects/ricva-cajou/src/styles/tailwind.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/ricva-cajou/src/environments/environment.ts",
+                  "with": "projects/ricva-cajou/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ricva-cajou:build:production"
+            },
+            "development": {
+              "browserTarget": "ricva-cajou:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ricva-cajou:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ricva-cajou/src/test.ts",
+            "polyfills": "projects/ricva-cajou/src/polyfills.ts",
+            "tsConfig": "projects/ricva-cajou/tsconfig.spec.json",
+            "karmaConfig": "projects/ricva-cajou/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/ricva-cajou/src/favicon-16x16.png",
+              "projects/ricva-cajou/src/favicon-32x32.png"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/authentification/src/styles/styles.scss"
+              ]
+            },
+            "scripts": []
+          }
+        }
+      }
+    },
+    "authentification": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/authentification",
+      "sourceRoot": "projects/authentification/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/authentification",
+            "index": "projects/authentification/src/index.html",
+            "main": "projects/authentification/src/main.ts",
+            "polyfills": "projects/authentification/src/polyfills.ts",
+            "tsConfig": "projects/authentification/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "apexcharts",
+              "highlight.js",
+              "crypto-js/enc-utf8",
+              "crypto-js/hmac-sha256",
+              "crypto-js/enc-base64"
+            ],
+            "assets": [
+              "projects/authentification/src/favicon-16x16.png",
+              "projects/authentification/src/favicon-32x32.png",
+              "projects/authentification/src/assets",
+              {
+                "glob": "projects/authentification/src/_redirects",
+                "input": "projects/authentification/src",
+                "output": "/"
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/authentification/src/@fuse/styles/"]
+            },
+            "styles": [
+              "projects/authentification/src/@fuse/styles/tailwind.scss",
+              "projects/authentification/src/@fuse/styles/themes.scss",
+              "projects/authentification/src/styles/vendors.scss",
+              "projects/authentification/src/@fuse/styles/main.scss",
+              "projects/authentification/src/styles/styles.scss",
+              "projects/authentification/src/styles/tailwind.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/authentification/src/environments/environment.ts",
+                  "with": "projects/authentification/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "authentification:build:production"
+            },
+            "development": {
+              "browserTarget": "authentification:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "authentification:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/authentification/src/test.ts",
+            "polyfills": "projects/authentification/src/polyfills.ts",
+            "tsConfig": "projects/authentification/tsconfig.spec.json",
+            "karmaConfig": "projects/authentification/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/authentification/src/favicon-16x16.png",
+              "projects/authentification/src/favicon-32x32.png"
+            ],
+            "styles": [
+              "projects/authentification/src/styles.scss",
+              "projects/authentification/src/styles/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "fuse": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/fuse",
+      "sourceRoot": "projects/fuse/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/fuse/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/fuse/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/fuse/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/fuse/src/test.ts",
+            "tsConfig": "projects/fuse/tsconfig.spec.json",
+            "karmaConfig": "projects/fuse/karma.conf.js"
+          }
+        }
+      }
+    },
+    "animations": {
+      "projectType": "library",
+      "root": "projects/animations",
+      "sourceRoot": "projects/animations/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/animations/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/animations/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/animations/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/animations/src/test.ts",
+            "tsConfig": "projects/animations/tsconfig.spec.json",
+            "karmaConfig": "projects/animations/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "authentification"
+}

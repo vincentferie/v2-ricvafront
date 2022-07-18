@@ -1,0 +1,458 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BOUTTON RETOUR -->
+        <div class="flex items-center ml-6">
+          <button
+            [matTooltip]="'Retour à l\'historique'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary-50 text-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:arrow-circle-left'"
+            ></mat-icon>
+            Retour
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Retour</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT GOES HERE -->
+    <div
+      class="lg:h-250 lg:min-h-250 lg:max-h-250 md:h-250 md:min-h-250 md:max-h-250 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Détails du bill of landing : N°{{ billOfLanding?.numero_bl }}
+        </div>
+      </div>
+
+      <div class="rid grid-rows-3 grid-flow-col sm:grid-cols-2 gap-1 w-full mt-8 sm:mt-4">
+        <div class="grid sm:grid-cols-2 gap-2 w-full mt-8 sm:mt-4">
+          <!-- COL GAUCHE -->
+          <div class="col-span-1">
+            <!-- PREREQUIS -->
+            <div class="row-start-2 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Préréquis
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!prerequisAdd" (click)="_prerequisAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="prerequisAdd" (click)="_submitPrerequis()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="prerequisAdd" (click)="_prerequisAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="prerequisForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Campagne </p>
+                    <p class="font-semibold p-3">Numéro BL </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!prerequisAdd">{{ billOfLanding?.campagne?.libelle }}</span>
+                      <select *ngIf="prerequisAdd" [formControlName]="'campagne_id'" id="campagne_id" class="w-full">
+                        <option *ngFor="let item of campagnes" [value]="item?.id">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!prerequisAdd">{{ billOfLanding?.numero_bl }}</span>
+                      <input *ngIf="prerequisAdd" type="text" [formControlName]="'numero_bl'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Liste des conteneurs</p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y"></div>
+                </div>
+              </form>
+
+              <!-- TABLE -->
+              <div class="flex">
+                <div class="flex-1 w-auto">
+                  <table class="max-w-100">
+                    <thead class="border-b bg-gray-50 text-gray-900">
+                      <tr>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Conteneur
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Plomb
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Sac
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Poids
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Taxe
+                        </th>
+                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                          Mesure
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of billOfLanding?.detailBls" class="border-b text-gray-900">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          {{ item?.conteneur?.numero }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item?.conteneur?.plomb?.pb_chiffre }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item?.nbr_sacs }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item?.gross_weight }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item?.tare }}
+                        </td>
+                        <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                          {{ item?.measurement }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- INFORMATION -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Informations
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!infoAdd" (click)="_infoAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_submitInfo()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_infoAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="infoForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Numéro de voyage </p>
+                    <p class="font-semibold p-3">Provenance </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.numero_voyage }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'numero_voyage'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.provenance }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'provenance'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Nom client </p>
+                    <p class="font-semibold p-3">Port départ </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.nom_client }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'nom_client'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.port_depart }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'port_depart'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Port arrivé </p>
+                    <p class="font-semibold p-3">Destination </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.port_arrive }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'port_arrive'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.destination }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'destination'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Amateur </p>
+                    <p class="font-semibold p-3">Pays client </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.amateur }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'amateur'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.pays_client }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'pays_client'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Adresse client </p>
+                    <p class="font-semibold p-3">Date d'embarquement </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.adresse_client }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'adresse_client'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ billOfLanding?.date_embarquement | date: "d MMMM y" : '' : 'fr-FR' }}</span>
+                      <input *ngIf="infoAdd" (dateChange)="_onDate()" type="date" [formControlName]="'date_embarquement'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- COL DROITE -->
+          <div class="col-span-1">
+            <div class="row-start-1 row-end-3 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-34 p-3">
+                    Pièce jointe
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!fileAdd" (click)="_fileAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="fileAdd" (click)="_submitFile()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="fileAdd" (click)="_fileAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AFFICHAGE PDF -->
+              <form [formGroup]="fileForm">
+                <div *ngIf="!fileAdd" class="p-2">
+                  <!-- PREVIEW -->
+                  <div class="row-start-1 p-2">
+                    <div class="flex">
+                      <div class="flex-none w-14 h-full">
+                        <img class="w-10 h-full rounded" src="/assets/images/logo/pdf.svg" alt="Default avatar">
+                      </div>
+                      <div class="flex-initial w-28">
+                        <p class="font-semibold text-xs">Titre </p>
+                        <p class="font-semibold text-xs">Créé le </p>
+                        <p class="font-semibold text-xs">Taille </p>
+                      </div>
+                      <div class="flex-initial w-80">
+                        <p class="text-xs">{{ billOfLanding?.file?.filename }}</p>
+                        <p class="text-xs">{{ billOfLanding?.file?.created | date: "d/MM/y" : '' : 'fr-FR' }}</p>
+                        <p class="text-xs">0 Kb </p>
+                      </div>
+                      <!-- <div class="flex-auto w-32"></div> -->
+                    </div>
+                  </div>
+
+                  <!-- VIEWER -->
+                  <div class="mt-4 w-full min-h-160">
+                    <ngx-doc-viewer
+                      [url]="env + '/bill-of-lading/download/' + billOfLanding?.file?.filename"
+                      viewer="google"
+                      style="width:100%;height:93vh;"
+                    >
+                    </ngx-doc-viewer>
+                  </div>
+                </div>
+                <div *ngIf="fileAdd">
+                  <div class="grid sm:grid-cols-1 gap-6 w-full">
+                    <div
+                      class="flex justify-center mt-4 text-gray-500 font-bold"
+                    >
+                      Glisser, deposer votre document
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <mat-icon
+                        svgIcon="heroicons_outline:cloud-upload"
+                        class="icon-size-20"
+                      ></mat-icon>
+                    </div>
+                    <div
+                      class="flex justify-center mt-2 text-gray-500 font-bold"
+                    >
+                      PDF, Taille maximale : 2048kb | 2Mb
+                    </div>
+                    <div class="flex justify-center m-4">
+                      <input (change)="onFileSelected($event)"
+                        matInputFile type="file" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+.datatable-paginator {
+  @screen lg {
+    .mat-paginator .mat-paginator-container .mat-paginator-range-actions {
+      padding-left: 20rem !important;
+    }
+  }
+}

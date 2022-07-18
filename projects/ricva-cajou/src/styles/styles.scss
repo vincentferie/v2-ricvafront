@@ -1,0 +1,170 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+/* -------------------------------- ricva colors --------------------------------*/
+
+.txt-left {
+  text-align: left !important;
+}
+
+.success-snackbar {
+  background-color: #28a745!important;
+}
+
+.info-snackbar {
+  background-color: #007bff!important;
+}
+
+.warning-snackbar {
+  background-color: #ffc107!important;
+}
+
+.danger-snackbar {
+  background-color: #dc3545!important;
+}
+
+.bg-gray {
+  background-color: #FAFAFB !important;
+}
+
+.bg-secondary-light {
+  background-color: #fcfcfc!important;
+}
+
+.bg-primary-light {
+  background-color: #fff6f1!important;
+}
+
+.text-blue-tint {
+  color: #0774be !important;
+}
+
+.bg-blue-tint {
+  background: #0774be !important;
+}
+
+.ricva-text-athens-gray {
+  color: #fafafb !important;
+}
+
+.ricva-bg-athens-gray {
+  background: #fafafb !important;
+}
+
+.ricva-text-gray {
+  color: #8d8d8d !important;
+}
+
+.ricva-bg-gray {
+  background: #8d8d8d !important;
+}
+
+.ricva-text-dove-gray {
+  color: #707070 !important;
+}
+
+.ricva-bg-dove-gray {
+  background: #707070 !important;
+}
+
+.ricva-text-linen {
+  color: #fcf7f2 !important;
+}
+
+.ricva-bg-linen {
+  background: #fcf7f2 !important;
+}
+
+.ricva-text-hurricane {
+  color: #807a78 !important;
+}
+
+.ricva-bg-hurricane {
+  background: #807a78 !important;
+}
+
+.ricva-text-tundora {
+  color: #424242 !important;
+}
+
+.ricva-bg-tundora {
+  background: #424242 !important;
+}
+
+.ricva-text-soapstone {
+  color: #fffbf8 !important;
+}
+
+.ricva-bg-soapstone {
+  background: #fffbf8 !important;
+}
+
+.ricva-text-white {
+  color: #fefefe !important;
+}
+
+.ricva-bg-white {
+  background: #fefefe !important;
+}
+
+.ricva-text-light-gray {
+  color: #00000033 !important;
+}
+
+.ricva-bg-light-gray {
+  background: #00000033 !important;
+}
+
+.ricva-text-pampas {
+  color: #f0ede9 !important;
+}
+
+.ricva-bg-pampas {
+  background: #f0ede9 !important;
+}
+
+.ricva-text-gallery {
+  color: #efefef !important;
+}
+
+.ricva-bg-gallery {
+  background: #efefef !important;
+}
+.ricva-text-dark-blue {
+  color: #0774be !important;
+}
+
+.ricva-bg-dark-blue {
+  background: #0774be !important;
+}
+
+.ricva-text-light-blue {
+  color: #0774be66 !important;
+}
+
+.ricva-bg-light-blue {
+  background: #0774be66 !important;
+}
+
+.ricva-text-wild-sand {
+  color: #f5f5f5 !important;
+}
+
+.ricva-bg-text-wild-sand {
+  background: F5F5F5 !important;
+}
+
+.btn-notifications {
+  box-shadow: 4px 13px 24px #0774be66 !important;
+}
+
+.btn-speculation {
+  font-size: 0.75rem !important;
+  min-width: 35px;
+  height: 35px;
+  min-height: 35px;
+  color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
+  border: 1.5px solid var(--fuse-primary-600) !important;
+}

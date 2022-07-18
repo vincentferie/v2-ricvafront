@@ -1,0 +1,206 @@
+<!-- show this on desktop view -->
+<div class="hidden lg:inline-block">
+  <button
+    mat-stroked-button
+    class="mat-focus-indicator btn-speculation mat-stroked-button mat-button-base ml-3 relative"
+    (click)="toggleGreenButton(this.applicationType.cashew)"
+  >
+    <!-- image cashew -->
+    <mat-icon svgIcon="ricva_icons:cashew"></mat-icon>
+    <span class="mat-button-wrapper text-sm">
+      <ng-container *transloco="let t">
+        {{ t("cajou") }}
+      </ng-container>
+    </span>
+    <span matripple class="mat-ripple mat-button-ripple"></span>
+    <!-- green icon -->
+    <ng-container *ngIf="this.applicationName === this.applicationType.cashew">
+      <mat-icon
+        svgIcon="ricva_icons:green_icon"
+        class="icon-size-4 absolute top-0 translate-x-10 -translate-y-1"
+      ></mat-icon>
+    </ng-container>
+    <span class="mat-button-focus-overlay"></span>
+  </button>
+
+  <!-- cacao -->
+  <button
+    mat-stroked-button
+    class="mat-focus-indicator btn-speculation mat-stroked-button mat-button-base ml-3 relative"
+    (click)="toggleGreenButton(this.applicationType.cacao)"
+  >
+    <!-- image cacao -->
+    <mat-icon svgIcon="ricva_icons:cacao"></mat-icon>
+    <span class="mat-button-wrapper text-sm">
+      <ng-container *transloco="let t">
+        {{ t("cacao") }}
+      </ng-container>
+    </span>
+    <span matripple="" class="mat-ripple mat-button-ripple"></span>
+    <!-- green icon -->
+    <ng-container *ngIf="this.applicationName === this.applicationType.cacao">
+      <mat-icon
+        svgIcon="ricva_icons:green_icon"
+        class="icon-size-4 absolute top-0 translate-x-10 -translate-y-1"
+      ></mat-icon>
+    </ng-container>
+    <span class="mat-button-focus-overlay"></span>
+  </button>
+
+  <!-- hevea -->
+  <button
+    mat-stroked-button
+    class="mat-focus-indicator btn-speculation mat-stroked-button mat-button-base ml-3"
+    (click)="toggleGreenButton(this.applicationType.rubber)"
+  >
+    <mat-icon svgIcon="ricva_icons:hevea"></mat-icon>
+    <span class="mat-button-wrapper text-sm">
+      <ng-container *transloco="let t">
+        {{ t("hevea") }}
+      </ng-container>
+    </span>
+    <span matripple="" class="mat-ripple mat-button-ripple"></span>
+    <!-- green icon -->
+    <ng-container *ngIf="this.applicationName === this.applicationType.rubber">
+      <mat-icon
+        svgIcon="ricva_icons:green_icon"
+        class="icon-size-4 absolute top-0 translate-x-10 -translate-y-1"
+      ></mat-icon>
+    </ng-container>
+    <span class="mat-button-focus-overlay"></span>
+  </button>
+
+  <!-- karite -->
+  <button
+    mat-stroked-button
+    class="mat-focus-indicator btn-speculation mat-stroked-button mat-button-base ml-3"
+    (click)="toggleGreenButton(this.applicationType.karite)"
+  >
+    <mat-icon svgIcon="ricva_icons:karite"></mat-icon>
+    <span class="mat-button-wrapper text-sm">
+      <ng-container *transloco="let t">
+        {{ t("karite") }}
+      </ng-container>
+    </span>
+    <span matripple="" class="mat-ripple mat-button-ripple"></span>
+    <!-- green icon -->
+    <ng-container *ngIf="this.applicationName === this.applicationType.karite">
+      <mat-icon
+        svgIcon="ricva_icons:green_icon"
+        class="icon-size-4 absolute top-0 translate-x-10 -translate-y-1"
+      ></mat-icon>
+    </ng-container>
+    <span class="mat-button-focus-overlay"></span>
+  </button>
+</div>
+
+<!-- show this on mobile wiew -->
+<div class="inline-block lg:hidden">
+  <button
+    class="ml-1 -mr-4"
+    mat-icon-button
+    [matMenuTriggerFor]="chatsHeaderMenu"
+  >
+    <mat-icon [svgIcon]="'heroicons_outline:dots-horizontal'"></mat-icon>
+    <mat-menu #chatsHeaderMenu>
+      <button
+        mat-menu-item
+        class="text-sm"
+        (click)="toggleGreenButton(this.applicationType.cashew)"
+      >
+        <mat-icon
+          [svgIcon]="'ricva_icons:cashew'"
+          class="icon-size-4"
+        ></mat-icon>
+        <ng-container *transloco="let t">
+          {{ t("cajou") }}
+        </ng-container>
+
+        <!-- green icon -->
+        <ng-container
+          *ngIf="this.applicationName === this.applicationType.cashew"
+        >
+          <mat-icon
+            svgIcon="ricva_icons:green_icon"
+            class="icon-size-4 absolute top-0 right-3 translate-y-4"
+          ></mat-icon>
+        </ng-container>
+      </button>
+
+      <!-- cacao -->
+      <button
+        mat-menu-item
+        class="text-sm"
+        (click)="toggleGreenButton(this.applicationType.cacao)"
+      >
+        <mat-icon
+          [svgIcon]="'ricva_icons:cacao'"
+          class="icon-size-4"
+        ></mat-icon>
+        <ng-container *transloco="let t">
+          {{ t("cacao") }}
+        </ng-container>
+
+        <!-- green icon -->
+        <ng-container
+          *ngIf="this.applicationName === this.applicationType.cacao"
+        >
+          <mat-icon
+            svgIcon="ricva_icons:green_icon"
+            class="icon-size-4 absolute top-0 right-3 translate-y-4"
+          ></mat-icon>
+        </ng-container>
+      </button>
+
+      <!-- hevea -->
+      <button
+        mat-menu-item
+        class="text-sm"
+        (click)="toggleGreenButton(this.applicationType.rubber)"
+      >
+        <mat-icon
+          [svgIcon]="'ricva_icons:hevea'"
+          class="icon-size-4"
+        ></mat-icon>
+        <ng-container *transloco="let t">
+          {{ t("hevea") }}
+        </ng-container>
+
+        <!-- green icon -->
+        <ng-container
+          *ngIf="this.applicationName === this.applicationType.rubber"
+        >
+          <mat-icon
+            svgIcon="ricva_icons:green_icon"
+            class="icon-size-4 absolute top-0 right-3 translate-y-4"
+          ></mat-icon>
+        </ng-container>
+      </button>
+
+      <!-- karite -->
+      <button
+        mat-menu-item
+        class="text-sm"
+        (click)="toggleGreenButton(this.applicationType.karite)"
+      >
+        <mat-icon
+          [svgIcon]="'ricva_icons:karite'"
+          class="icon-size-4"
+        ></mat-icon>
+        <ng-container *transloco="let t">
+          {{ t("karite") }}
+        </ng-container>
+
+        <!-- green icon -->
+        <ng-container
+          *ngIf="this.applicationName === this.applicationType.karite"
+        >
+          <mat-icon
+            svgIcon="ricva_icons:green_icon"
+            class="icon-size-4 absolute top-0 right-3 translate-y-4"
+          ></mat-icon>
+        </ng-container>
+      </button>
+    </mat-menu>
+  </button>
+</div>

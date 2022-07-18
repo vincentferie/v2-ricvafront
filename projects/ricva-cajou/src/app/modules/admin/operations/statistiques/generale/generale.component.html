@@ -1,0 +1,259 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+  >
+    <!-- FORM FILTER -->
+    <div
+      class="lg:h-40 lg:min-h-40 lg:max-h-40 md:h-40 md:min-h-40 md:max-h-40 flex flex-col sm:flex-auto p-4 rounded-xl bg-primary-100"
+    >
+      <span class="text-primary font-bold m-2">Filtre</span>
+      <fuse-card class="flex flex-col w-full filter-article min-h-24 max-h-24">
+        <div
+          class="flex flex-col flex-auto p-4 bg-card rounded overflow-hidden"
+        >
+          <form [formGroup]="formFiltre">
+            <div class="flex flex-row gap-6">
+              <div class="basis-1/2">
+                <!-- CAMPAGNE -->
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                  <mat-select
+                  [placeholder]="'Campagne'"
+                    [formControlName]="'campagne'"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <ng-container *ngIf="campagnes$ | async as lists">
+                      <ng-container *ngFor="let element of lists">
+                        <mat-option value="{{ element.id }}">{{
+                          element?.libelle
+                        }}</mat-option>
+                      </ng-container>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="basis-1/2">
+                <!-- OUT TURN -->
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                  <mat-select
+                    [placeholder]="'Out turn flag'"
+                    [formControlName]="'out'"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <ng-container *ngIf="exportateurs$ | async as lists">
+                      <ng-container *ngFor="let element of lists">
+                        <mat-option value="{{ element.id }}">{{
+                          element?.raison
+                        }}</mat-option>
+                      </ng-container>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-1">
+                <button type="button"
+                  class="bg-primary hover:bg-primary text-white w-30"
+                  mat-flat-button>
+                  <span class="text-base">Filter</span>
+                  <mat-icon
+                    class="icon-size-5 ml-2"
+                    [svgIcon]="'heroicons_outline:search'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </fuse-card>
+    </div>
+
+    <div class="mt-4 min-h-10">
+      <!-- WIGETS DES BILANS -->
+      <div class="flex flex-row gap-0.5">
+        <!-- WIGETS 1 -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-30"
+          >
+            <span class="font-bold text-primary">Bilan</span>
+            <div class="pl-6">
+              <p class="font-light text-xs">Total de lots déchargés</p>
+              <h5 class="font-bold fs-50">5600</h5>
+            </div>
+          </div>
+        </div>
+        <!-- WIGETS 2 -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-30"
+          >
+            <span class="font-bold text-primary hidden mb-8">Bilan</span>
+            <div class="mt-5 pl-6">
+              <p class="font-light text-xs">Poids net déchargés</p>
+              <h5 class="font-bold fs-50">215146922</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAPHIQUE EN BANDE -->
+      <div class="flex flex-row gap-4 mt-4">
+        <!-- REPARTITION GRAPHIQUE DU TONNAGE ANALYSE PAR SITE -->
+        <div class="w-full">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-80"
+          >
+            <span class="font-bold text-primary">Répartition graphique du tonnage analysé par sites</span>
+
+            <div class="mt-4 text-xs">
+              <div id="chart-site" style="width: 100%; height: 400px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAPHIQUE EN LIGNE EVOLUTION DU NIVEAU DE STOCK PAR JOURS / EVOLUTION DU NIVEAU DE STOCK -->
+      <div class="flex flex-row gap-4 mt-4">
+        <!-- EVOLUTION DU NIVEAU DE STOCK PAR JOURS -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-60"
+          >
+            <span class="font-bold text-primary">Evolution du niveau de stock par jours</span>
+            <div class="mt-4 text-xs">
+            </div>
+          </div>
+        </div>
+        <!-- EVOLUTION DU NIVEAU DE STOCK -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-60"
+          >
+            <span class="font-bold text-primary">Evolution du niveau de stock</span>
+
+            <div class="mt-4 text-xs">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAPHIQUE EN BANDE REPARTITION GRAPHIQUE DU TONNAGE EN FONCTION DES PLUS GRANDS EXPORTATEURS -->
+      <div class="flex flex-row gap-4 mt-4">
+        <div class="w-full">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-80"
+          >
+            <span class="font-bold text-primary">Répartition graphique du tonnage analysé par sites</span>
+            <div class="mt-4 text-xs">
+              <div id="chart-exportateur" style="width: 100%; height: 400px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAPHIQUE PIE DE QUALITE DES PRODUITS ANALYSES GIE / SITUATION DES ANALYSES -->
+      <div class="flex flex-row gap-4 mt-4">
+        <!-- QUALITE DES PRODUITS ANALYSES -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-80"
+          >
+            <span class="font-bold text-primary">Qualité des produits analysés du GIE</span>
+            <div class="mt-4 text-xs">
+              <div id="chart-produit" style="width: 100%; height: 400px"></div>
+            </div>
+          </div>
+        </div>
+        <!-- SITUATION DES ANALYSES -->
+        <div class="basis-1/2">
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-80"
+          >
+            <span class="font-bold text-primary">Situation des analyses</span>
+
+            <div class="mt-4 text-xs">
+              <div id="chart-situation" style="width: 100%; height: 400px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVENTAIRE LOTS EXPORTATEUR -->
+      <div class="flex flex-row gap-4 mt-4">
+        <div class="w-full"
+          fuseScrollbar
+          [fuseScrollbarOptions]="{
+            wheelPropagation: true,
+            suppressScrollY: true
+          }"
+        >
+          <div
+            class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden
+            bg-card dark:bg-transparent rounded-lg p-4 min-h-80"
+          >
+            <span class="font-bold text-primary">Répartition des lots et tonnages exportateur par entrepot</span>
+            <div class="mt-4 text-xs">
+              <table class="rounded-xl w-full">
+                <thead class="border-b bg-primary-100 text-gray-900 rounded-lg">
+                  <tr>
+                    <th
+                      *ngFor="let header of headerExportateur"
+                      [matTooltip]="header.name"
+                      [matTooltipPosition]="'above'"
+                      scope="col" class="{{ header.class }} text-xs font-medium px-6 py-4 text-left">
+                      {{ header.label }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of exportateurs" class="border-b text-gray-900">
+                    <td class="px-6 py-4 whitespace-nowrap text-xs font-medium">
+                      {{ item?.one }}
+                    </td>
+                    <td class="text-xs font-light px-6 py-4 whitespace-nowrap">
+                      {{ item?.two }}
+                    </td>
+                    <td class="text-xs font-light px-6 py-4 whitespace-nowrap">
+                      {{ item?.three }}
+                    </td>
+                    <td class="text-xs font-light px-6 py-4 whitespace-nowrap">
+                      {{ item?.four }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

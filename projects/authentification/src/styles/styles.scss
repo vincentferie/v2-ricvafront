@@ -1,0 +1,28 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Import/write your custom styles here.
+/*  @ Styles from this file will override 'vendors.scss' and Fuse's base styles.
+/* ----------------------------------------------------------------------------------------------------- */
+
+.success-snackbar {
+  background-color: #28a745!important;
+}
+.info-snackbar {
+  background-color: #007bff!important;
+}
+.warning-snackbar {
+  background-color: #ffc107!important;
+}
+.danger-snackbar {
+  background-color: #dc3545!important;
+}
+
+.position-snackbar {
+  margin: 0 !important;
+  position: absolute;
+  right: 25px;
+  top: 35px;
+}
+
+.text-color-ricva {
+  color: #cb7a4b;
+}

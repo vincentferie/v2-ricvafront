@@ -1,0 +1,45 @@
+.datatable {
+  .table-grid {
+    // grid-template-columns: 48px auto 40px;
+    grid-template-columns: 2fr 2fr 3fr 2fr 2fr 2fr 2fr 2fr !important;
+
+    @screen sm {
+      // grid-template-columns: 48px auto 112px 72px;
+      grid-template-columns: 6fr 8fr 4fr 2fr !important;
+    }
+
+    @screen md {
+      // grid-template-columns: 48px 112px auto 112px 72px;
+      grid-template-columns: 4fr 4fr 6fr 3fr 2fr !important;
+    }
+
+    @screen lg {
+      // grid-template-columns: 48px 112px auto 112px 96px 96px 72px;
+      grid-template-columns: 2fr 2fr 3fr 2fr 2fr 2fr 2fr 2fr !important;
+    }
+  }
+  .next-grid {
+  }
+
+  .mat-stroked-button {
+    border-color: #d1d5db !important;
+  }
+  .mat-stroked-button:hover {
+    background: #f9fafb !important;
+  }
+
+  .rows-on-page {
+    width: 5rem !important;
+  }
+
+  .mat-paginator .mat-paginator-container {
+    justify-content: space-between !important;
+  }
+
+  .datatable-rows:nth-child(odd) {
+    background-color: #fffbf8;
+  }
+  .datatable-rows .datatable-column {
+    cursor: pointer;
+  }
+}

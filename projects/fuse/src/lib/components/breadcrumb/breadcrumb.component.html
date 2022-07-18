@@ -1,0 +1,12 @@
+<div class="hidden sm:flex flex-wrap items-center font-medium">
+  <div *ngFor="let path of paths" class="flex items-center ml-1 whitespace-nowrap">
+    <mat-icon *ngIf="path.range !== 'first'"
+      class="icon-size-5 text-secondary"
+      [svgIcon]="'heroicons_solid:chevron-right'"
+    ></mat-icon>
+    <a [ngClass]="{
+      'ml-1 text-primary-500': path.range !== 'last',
+      'ml-1 text-secondary': path.range === 'last'
+      }">{{ path.label }}</a>
+  </div>
+</div>

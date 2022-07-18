@@ -1,0 +1,346 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BOUTTON RETOUR -->
+        <div class="flex items-center ml-6">
+          <button
+            [matTooltip]="'Clôturer l\'empotage'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary w-50 mr-2"
+          >
+            Clôturer
+          </button>
+          <button
+            [matTooltip]="'Retour à l\'historique'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary-50 text-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:arrow-circle-left'"
+            ></mat-icon>
+            Retour
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Retour</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT GOES HERE -->
+    <div
+      class="lg:h-250 lg:min-h-250 lg:max-h-250 md:h-250 md:min-h-250 md:max-h-250 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Détails du plan d'empotage : N° 00001925
+          <button class="px-8 py-1 ml-4 text-white rounded bg-green-500">
+            Validé
+          </button>
+        </div>
+      </div>
+
+      <div class="rid grid-rows-3 grid-flow-col sm:grid-cols-2 gap-1 w-full mt-8 sm:mt-4">
+        <div class="grid sm:grid-cols-2 gap-2 w-full mt-8 sm:mt-4">
+
+          <!-- COL GAUCHE -->
+          <div class="col-span-1">
+            <!-- PREREQUIS -->
+            <div class="row-start-2 rounded-lg bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-1">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Préréquis
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none w-{{ !prerequisAdd ? '24' : '50'}} mr-2 text-primary-600">
+                    <button *ngIf="!prerequisAdd" (click)="_prerequisAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 mr-1"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                      <span class="text-base">Editer</span>
+                    </button>
+                    <button *ngIf="prerequisAdd" (click)="_submitPrerequis()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                      <span class="text-base">Enregistrer</span>
+                    </button>
+                    <button *ngIf="prerequisAdd" (click)="_prerequisAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                      <span class="text-base">Annuler</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="prerequisForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Contrat </p>
+                    <p class="font-semibold p-3">Quantité </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!prerequisAdd">{{prerequisForm.get('contrat')?.value}}</span>
+                      <input *ngIf="prerequisAdd" type="text" [formControlName]="'contrat'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!prerequisAdd">{{prerequisForm.get('quantite')?.value}}</span>
+                      <input *ngIf="prerequisAdd" type="number" [formControlName]="'quantite'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Premuim </p>
+                    <p class="font-semibold p-3">Discompte </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">+2</p>
+                    <p class="p-3">-2</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- SITE -->
+            <div class="row-start-2 rounded-lg bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-1">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Site
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none w-{{ !siteAdd ? '24' : '50'}} mr-2 text-primary-600">
+                    <button *ngIf="!siteAdd" (click)="_siteAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                      <span class="text-base">Editer</span>
+                    </button>
+                    <button *ngIf="siteAdd" (click)="_submitSite()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                      <span class="text-base">Enregistrer</span>
+                    </button>
+                    <button *ngIf="siteAdd" (click)="_siteAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                      <span class="text-base">Annuler</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="prerequisForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">N° Fiche </p>
+                    <p class="font-semibold p-3">Date de déchargement </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">00035451</p>
+                    <p class="p-3">02/06/2021 </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Tracteur </p>
+                    <p class="font-semibold p-3">Remorque </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">7112HR03</p>
+                    <p class="p-3">1111GB05 </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Fournisseur </p>
+                    <p class="font-semibold p-3">Contact fournisseur </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">SCOOPS FALITCHINHOU</p>
+                    <p class="p-3">0748867578 </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Transporteur </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">KAFEREH YEO</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- COL DROITE -->
+          <div class="col-span-1">
+            <div class="row-start-1 row-end-3 rounded-lg bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-1">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Lots
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none w-24 mr-2 text-primary-600">
+                    <button
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 mr-1"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                      <span class="text-base">Editer</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="lotForm">
+                <div formArrayName="lots">
+                  <div *ngFor="let opt of lot.controls; let i=index" [formGroupName]="i">
+                    <div class="text-primary font-semibold p-2">Lot {{i + 1}}</div>
+                    <div class="flex text-xs">
+                      <div class="basis-1/6">
+                        <p class="font-semibold p-3">Qualité </p>
+                        <p class="font-semibold p-3">Grainage </p>
+                        <p class="font-semibold p-3">TH </p>
+                      </div>
+                      <div class="basis-1/8">
+                        <p class="p-3">12</p>
+                        <p class="p-3">12</p>
+                        <p class="p-3">123</p>
+                      </div>
+                      <div class="flex-1 w-80">
+                        <p class="font-semibold p-3">Nombre de sac en stock </p>
+                        <p class="font-semibold p-3">Nombre de sac restant </p>
+                        <p class="font-semibold p-3"></p>
+                      </div>
+                      <div class="basis-1/8">
+                        <p class="p-3">233</p>
+                        <p class="p-3">213</p>
+                        <p class="p-3"></p>
+                      </div>
+                      <div class="flex-1">
+                        <p class="font-semibold p-3"></p>
+                        <p class="p-3">
+                          <button
+                            class="min-w-22 min-h-5 h-7 px-2 leading-6 bg-primary-50 rounded text-center text-primary mr-1"
+                            mat-icon-button
+                          >
+                            <mat-icon
+                              class="icon-size-4 text-primary"
+                              svgIcon="heroicons_outline:refresh"
+                            ></mat-icon>
+                            Changer
+                          </button>
+                          <button
+                            class="min-w-5 min-h-5 h-7 px-2 leading-6 bg-primary-500 rounded text-center"
+                            mat-icon-button
+                            (click)="_deleteLot(opt)"
+                          >
+                            <mat-icon
+                              class="icon-size-4 text-white"
+                              svgIcon="heroicons_outline:trash"
+                            ></mat-icon>
+                          </button>
+                        </p>
+                        <p class="font-semibold p-3"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+{
+  "*.{md,html,json}": ["prettier -—write"],
+  "*.{css,less,scss}": ["stylelint"],
+  "*.{js,jsx}": ["eslint —-max-warnings 0", "eslint --fix"],
+  "*.{ts,tsx}": ["tslint"]
+}

@@ -1,0 +1,200 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Créer un conteneur
+          </div>
+        </div>
+
+        <!-- FORMS -->
+        <form class="p-4 overflow-hidden" [formGroup]="form">
+          <!-- STEP 2 -->
+          <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+
+            <!-- NUMERO CONTENEUR -->
+            <mat-form-field class="w-full">
+              <mat-label>Numéro conteneur</mat-label>
+              <input
+                matInput
+                #input
+                type="text"
+                placeholder="Numéro conteneur"
+                [formControlName]="'numero'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('numero').hasError('required')">
+                {{ errosForm("Le numéro conteneur") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- BOOKING -->
+            <mat-form-field class="w-full">
+              <mat-label>Booking</mat-label>
+              <input type="text" matInput
+                [formControlName]="'booking_id'"
+                [errorStateMatcher]="matcher"
+                [matAutocomplete]="booking_id">
+              <mat-autocomplete (optionSelected)="setValue($event, 'BOOKING')" #booking_id="matAutocomplete">
+                <mat-option *ngFor="let element of filterBooking" [value]="element?.numero_reel" [id]="element?.id">
+                  {{element?.numero_reel}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('booking_id').hasError('required')">
+                {{ errosForm("Le booking") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- ENTREPOT -->
+            <mat-form-field class="w-full">
+              <mat-label>Entrepôt</mat-label>
+              <input type="text" matInput
+                [formControlName]="'entrepot_id'"
+                [errorStateMatcher]="matcher"
+                [matAutocomplete]="entrepot_id">
+              <mat-autocomplete (optionSelected)="setValue($event, 'ENTREPOT')" #entrepot_id="matAutocomplete">
+                <mat-option *ngFor="let element of filterEntrepot" [value]="element?.entrepot.libelle" [id]="element?.entrepot_id">
+                  {{element?.libelle}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="form.get('entrepot_id').hasError('required')">
+                {{ errosForm("L'entrepôt") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- TYPE TC -->
+            <mat-form-field class="w-full">
+              <mat-label>Type TC</mat-label>
+              <mat-select
+                [formControlName]="'type_tc'"
+                [errorStateMatcher]="matcher"
+              >
+                <ng-container *ngFor="let element of stateType">
+                  <mat-option [value]="element.value">
+                    {{ element?.libelle }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="form.get('type_tc').hasError('required')">
+                {{ errosForm("Le type TC") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- CAPACITE -->
+            <mat-form-field class="w-full">
+              <mat-label>Capacité</mat-label>
+              <input
+                matInput
+                #input
+                type="number"
+                [min]="0"
+                placeholder="Capacité"
+                [formControlName]="'capacite'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('capacite').hasError('required')">
+                {{ errosForm("La capacité", "F") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex justify-center mt-8">
+            <button
+              class="px-4 rounded-lg text-primary bg-primary-50 mr-2"
+              mat-flat-button
+              type="button"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="icon-size-5 mr-2"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              Annuler
+            </button>
+
+            <button
+              class="px-4 rounded-lg"
+              mat-flat-button
+              [color]="'primary'"
+              type="button"
+              [disabled]="form.invalid"
+              (click)="confirmeSubmit()"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+        <!-- FIN FORMS -->
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

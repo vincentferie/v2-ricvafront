@@ -1,0 +1,47 @@
+{
+  "defaultSeverity": "warning",
+  "extends": ["tslint:recommended"],
+  "linterOptions": {
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**/*.ts",
+      "/**/**/node_modules/**/*.ts"
+    ]
+  },
+  "jsRules": {},
+  "rules": {
+    "prettier": true,
+    "banana-in-box": true,
+    "contextual-life-cycle": true,
+    "decorator-not-allowed": true,
+    "pipe-impure": true,
+    "templates-no-negated-async": true,
+    "trackBy-function": true,
+    "i18n": [true, "check-id", "check-text"],
+    "no-attribute-parameter-decorator": true,
+    "no-forward-ref": true,
+    "no-input-rename": true,
+    "no-life-cycle-call": true,
+    "no-output-named-after-standard-event": true,
+    "no-output-on-prefix": true,
+    "no-output-rename": true,
+    "no-queries-parameter": true,
+    "no-template-call-expression": true,
+    "no-unused-css": true,
+    "prefer-inline-decorator": true,
+    "prefer-output-readonly": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-decorator": true,
+    "use-pipe-transform-interface": true,
+    "use-view-encapsulation": true,
+    "angular-whitespace": [true, "check-interpolation", "check-semicolon"],
+    "component-class-suffix": [true, "Component"],
+    "component-selector": [true, "element", ["ngx", "test"], "kebab-case"],
+    "directive-class-suffix": [true, "Directive"],
+    "directive-selector": [true, "attribute", ["ngx", "test"], "camelCase"],
+    "import-destructuring-spacing": true,
+    "use-host-property-decorator": true,
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true
+  }
+}

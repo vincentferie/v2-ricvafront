@@ -1,0 +1,1034 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a (click)="toBack()" class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BOUTTON RETOUR -->
+        <div class="flex items-center ml-6">
+          <button
+            [matTooltip]="'Supprimer'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary text-white mr-1"
+            (click)="_delete(entreposage?.id)"
+          >
+            Supprimer
+            <mat-icon
+              class="icon-size-5 ml-2"
+              [svgIcon]="'heroicons_outline:trash'"
+            ></mat-icon>
+          </button>
+          <button
+            [matTooltip]="'Retour à l\'historique'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary-50 text-primary"
+            (click)="toBack()"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:chevron-left'"
+            ></mat-icon>
+            Retour
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              [matTooltip]="'Retour à l\'historique'"
+              [matTooltipPosition]="'above'"
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              (click)="toBack()"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:chevron-left"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Retour</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT GOES HERE -->
+    <div
+      class="lg:h-250 lg:min-h-250 lg:max-h-250 md:h-250 md:min-h-250 md:max-h-250 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Détails de l'entreposage : N° {{ entreposage?.numero_lot }}
+        </div>
+        <div>
+          <!-- STATUT -->
+          <span *ngIf="entreposage?.statut === null" class="px-8 py-1 text-white rounded bg-green-500 text-xs">
+            Aucun
+          </span>
+          <span *ngIf="entreposage?.statut === 1" class="px-8 py-1 text-white rounded bg-red-500 text-xs">
+            Nantis
+          </span>
+          <span *ngIf="entreposage?.statut === 2" class="px-8 py-1 text-white rounded bg-green-500 text-xs">
+            Relacher
+          </span>
+          <span *ngIf="entreposage?.statut === 3" class="px-8 py-1 text-white rounded bg-green-500 text-xs">
+            Denantis
+          </span>
+          <!-- VALIDITY -->
+          <span *ngIf="entreposage?.validity" class="px-8 py-1 text-white rounded bg-green-500 text-xs">
+            Certifié
+          </span>
+          <span *ngIf="!entreposage?.validity" class="px-8 py-1 text-white rounded bg-red-500 text-xs">
+            Non certifié
+          </span>
+        </div>
+      </div>
+
+      <div class="rid grid-rows-5 grid-flow-col sm:grid-cols-2 gap-1 w-full mt-8 sm:mt-4">
+        <div class="grid sm:grid-cols-2 gap-2 w-full mt-8 sm:mt-4">
+
+          <!-- COL GAUCHE -->
+          <div class="col-span-1">
+            <!-- INFORMATION -->
+            <div class="row-start-2 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Informations
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!infoAdd" (click)="_infoAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_submitInfo()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_infoAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="infoForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Déchargement </p>
+                    <p class="font-semibold p-3">Numéro de ticket de pesée </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.dechargement?.num_fiche }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ entreposage?.numero_ticket_pese }}</span>
+                      <input *ngIf="infoAdd" type="number" [formControlName]="'numero_ticket_pese'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Date de déchargement </p>
+                    <p class="font-semibold p-3">Code de déchargement </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ entreposage?.date_dechargement | date: "d/M/y" : '' : 'fr-FR' }}</span>
+                      <input *ngIf="infoAdd" (dateChange)="_onDate('date_dechargement')" type="date" [formControlName]="'date_dechargement'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span>{{ entreposage?.code_dechargement }}</span>
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- DECOMPTE -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Décompte
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!decompteAdd" (click)="_decompteAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="decompteAdd" (click)="_submitDecompte()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="decompteAdd" (click)="_decompteAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="decompteForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Sac en stock </p>
+                    <p class="font-semibold p-3">Reconditionné </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.sac_en_stock }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'sac_en_stock'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.reconditionne }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'reconditionne'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Tare emballage refraction </p>
+                    <p class="font-semibold p-3">Poids net </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.tare_emballage_refraction }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'tare_emballage_refraction'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.poids_net }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'poids_net'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Sacs déchargés </p>
+                    <p class="font-semibold p-3">Première pesée </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.sacs_decharge }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'sacs_decharge'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.premiere_pesee }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'premiere_pesee'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Deuxième pesée </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!decompteAdd">{{ entreposage?.deuxieme_pesee }}</span>
+                      <input *ngIf="decompteAdd" type="number" [formControlName]="'deuxieme_pesee'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- ANALYSE -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Analyse
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!analyseAdd" (click)="_analyseAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="analyse ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="analyse ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="analyseAdd" (click)="_submitAnalyse(analyse ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="analyseAdd" (click)="_analyseAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="analyseAdd && analyse" (click)="_deleteAnalyse(analyse?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="analyseForm">
+                <div *ngIf="analyseAdd || analyse" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">Grainage </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.numero_lot }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!analyseAdd">{{ analyse?.grainage }}</span>
+                      <input *ngIf="analyseAdd" type="number" [formControlName]="'grainage'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="analyseAdd || analyse" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Out turn </p>
+                    <p class="font-semibold p-3">TH </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!analyseAdd && analyse">{{ analyse?.out_turn }}</span>
+                      <input *ngIf="analyseAdd" type="number" [formControlName]="'out_turn'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!analyseAdd && analyse">{{ analyse?.th }}</span>
+                      <input *ngIf="analyseAdd" type="number" [formControlName]="'th'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!analyseAdd && !analyse" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- CESSION -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Cession
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!cessionAdd" (click)="_cessionAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="cession ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="cession ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="cessionAdd" (click)="_submitCession(cession ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="cessionAdd" (click)="_cessionAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="cessionAdd && cession" (click)="_deleteCession(cession?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="cessionForm">
+                <div *ngIf="cessionAdd || cession" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">Cédant </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.numero_lot }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!cessionAdd">{{ cession?.cedant?.raison }}</span>
+                      <input *ngIf="cessionAdd" type="text" [formControlName]="'cedant_id'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="cessionAdd || cession" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Recevant </p>
+                    <p class="font-semibold p-3">Date de cession </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!cessionAdd">{{ cession?.recevant?.raison }}</span>
+                      <input *ngIf="cessionAdd" type="text" [formControlName]="'recevant_id'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!cessionAdd">{{ cession?.date_session | date: "d/M/y" : '' : 'fr-FR' }}</span>
+                      <input *ngIf="cessionAdd" (dateChange)="_onDate('date_session')" type="date" [formControlName]="'date_session'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!cessionAdd && !cession" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- BALANCE -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Balance
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!balanceAdd" (click)="_balanceAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="balance ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="balance ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balanceAdd" (click)="_submitBalance(balance ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balanceAdd" (click)="_balanceAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balanceAdd && balance" (click)="_deleteBalance(balance?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="balanceForm">
+                <div *ngIf="balanceAdd || balance > 0" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">Campagne </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.numero_lot }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!balanceAdd">{{ balance?.campagne?.libelle }}</span>
+                      <select *ngIf="balanceAdd" [formControlName]="'campagne_id'" id="campagne_id" class="w-full">
+                        <option *ngFor="let item of campagnes" [value]="item?.id">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="balanceAdd || balance" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Entrepôt </p>
+                    <p class="font-semibold p-3">Date </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!balanceAdd">{{ balance?.entrepot?.libelle }}</span>
+                      <select *ngIf="balanceAdd" [formControlName]="'entrepot_id'" id="entrepot_id" class="w-full">
+                        <option *ngFor="let item of entrepots" [value]="item?.entrepot?.id">
+                          {{ item?.entrepot?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!balanceAdd">{{ balance?.date | date: "d/M/y" : '' : 'fr-FR' }}</span>
+                      <input *ngIf="balanceAdd" (dateChange)="_onDate('date')" type="date" [formControlName]="'date'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="balanceAdd || balance" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Nombre de sacs </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!balanceAdd">{{ balance?.nbre_sacs }}</span>
+                      <input *ngIf="balanceAdd" type="number" [formControlName]="'nbre_sacs'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!balanceAdd && !balance" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- COL DROITE -->
+          <div class="col-span-1">
+            <!-- PIECE JOINTE -->
+            <div class="row-start-1 row-end-3 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-30 p-3">
+                    Pièce jointe
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TABS -->
+              <div class="mb-4 border-b border-gray-200 p-2">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tabsPdf" data-tabs-toggle="#tabsPDF" role="tablist">
+                  <li class="mr-2 w-60" role="presentation">
+                    <button (click)="onTabs('ticket')" class="w-full inline-block p-4 rounded-t-lg border-b-2 text-{{tabs === 'ticket' ? 'primary' : 'gray-800'}}
+                      hover:text-primary-900 border-{{tabs === 'ticket' ? 'primary' : 'gray-100'}} font-bold" id="ticket-tab" data-tabs-target="#ticket"
+                      type="button" role="tab" aria-controls="ticket" aria-selected="true">
+                      Ticket de pesé
+                    </button>
+                  </li>
+                  <li class="mr-2 w-60" role="presentation">
+                    <button (click)="onTabs('tranfert')" class="w-full inline-block p-4 rounded-t-lg border-b-2 text-{{tabs === 'tranfert' ? 'primary' : 'gray-800'}}
+                    hover:text-primary-900 border-{{tabs === 'tranfert' ? 'primary' : 'gray-100'}} font-bold"
+                      id="tranfert-tab" data-tabs-target="#tranfert" type="button"
+                      role="tab" aria-controls="dashboard" aria-selected="false">
+                      Fiche de tranfert
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div id="tabsPDF">
+                <!-- FICHE DE TICKET DE PESEE -->
+                <div *ngIf="tabs === 'ticket'" class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="ticket"
+                role="tabpanel" aria-labelledby="ticket-tab">
+                  <!-- AFFICHAGE PDF -->
+                  <div class="p-2">
+                    <!-- PREVIEW -->
+                    <div class="row-start-1 p-2">
+                      <div class="flex">
+                        <div class="flex-none w-14 h-full">
+                          <img class="w-10 h-full rounded" src="/assets/images/logo/pdf.svg" alt="Default avatar">
+                        </div>
+                        <div class="flex-initial w-28">
+                          <p class="font-semibold text-xs">Titre </p>
+                          <p class="font-semibold text-xs">Créé le </p>
+                          <p class="font-semibold text-xs">Taille </p>
+                        </div>
+                        <div class="flex-initial w-32">
+                          <p class="text-xs">{{ entreposage?.file?.filename }}</p>
+                          <p class="text-xs">{{ entreposage?.file?.created | date: "d/MM/y" : '' : 'fr-FR' }}</p>
+                          <p class="text-xs">0 Kb </p>
+                        </div>
+                        <div class="flex-auto w-32"></div>
+                      </div>
+                    </div>
+
+                    <!-- VIEWER -->
+                    <div class="mt-4 w-full min-h-160">
+                      <ngx-doc-viewer
+                        [url]="env + '/lots/download/' + entreposage?.file?.filename"
+                        viewer="google"
+                        style="width:100%;height:93vh;"
+                      >
+                      </ngx-doc-viewer>
+                    </div>
+                  </div>
+                </div>
+                <!-- FICHE TRANSFERT -->
+                <div *ngIf="tabs === 'tranfert'" class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="tranfert"
+                 role="tabpanel" aria-labelledby="tranfert-tab">
+                 <!-- AFFICHAGE PDF -->
+                 <div class="p-2">
+                   <!-- PREVIEW -->
+                   <div class="row-start-1 p-2">
+                     <div class="flex">
+                       <div class="flex-none w-14 h-full">
+                         <img class="w-10 h-full rounded" src="/assets/images/logo/pdf.svg" alt="Default avatar">
+                       </div>
+                       <div class="flex-initial w-28">
+                         <p class="font-semibold text-xs">Titre </p>
+                         <p class="font-semibold text-xs">Créé le </p>
+                         <p class="font-semibold text-xs">Taille </p>
+                       </div>
+                       <div class="flex-initial w-32">
+                        <p class="text-xs">{{ entreposage?.dechargement?.file?.filename }}</p>
+                        <p class="text-xs">{{ entreposage?.dechargement?.file?.created | date: "d/MM/y" : '' : 'fr-FR' }}</p>
+                        <p class="text-xs">0 Kb </p>
+                       </div>
+                       <div class="flex-auto w-32"></div>
+                     </div>
+                   </div>
+
+                   <!-- VIEWER -->
+                   <div class="mt-4 w-full min-h-160">
+                    <ngx-doc-viewer
+                      [url]="env + '/unloading/download/' + entreposage?.dechargement?.file?.filename"
+                      viewer="google"
+                      style="width:100%;height:93vh;"
+                    >
+                    </ngx-doc-viewer>
+                   </div>
+                 </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BALAYURE -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Balayure
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!balayureAdd" (click)="_balayureAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="balayure ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="balayure ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balayureAdd" (click)="_submitBalayure(balayure ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balayureAdd" (click)="_balayureAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="balayureAdd && balayure" (click)="_deleteBalayure(balayure?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="balayureForm">
+                <div *ngIf="balayureAdd || balayure" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">Campagne </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.numero_lot }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!balayureAdd">{{ balayure?.campagne?.libelle }}</span>
+                      <select *ngIf="balayureAdd" [formControlName]="'campagne_id'" id="campagne_id" class="w-full">
+                        <option *ngFor="let item of campagnes" [value]="item?.id">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="balayureAdd || balayure" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Entrepôt </p>
+                    <p class="font-semibold p-3">Date </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!balayureAdd">{{ balayure?.entrepot?.libelle }}</span>
+                      <select *ngIf="balayureAdd" [formControlName]="'entrepot_id'" id="entrepot_id" class="w-full">
+                        <option *ngFor="let item of entrepots" [value]="item?.entrepot?.id">
+                          {{ item?.entrepot?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!balayureAdd">{{ balayure?.date | date: "d/M/y" : '' : 'fr-FR' }}</span>
+                      <input *ngIf="balayureAdd" (dateChange)="_onDate('date_balayure')" type="date" [formControlName]="'date'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="balayureAdd || balayure" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Nombre de sacs </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!balayureAdd">{{ balance?.nbre_sacs }}</span>
+                      <input *ngIf="balayureAdd" type="number" [formControlName]="'nbre_sacs'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!balayureAdd && !balayure" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- TRANSFERT -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Transfert
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!transfertAdd" (click)="_transfertAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="transfert ? 'Editer' : 'Ajouter'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="transfert ? 'heroicons_solid:pencil' : 'heroicons_solid:plus'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="transfertAdd" (click)="_submitTransfert(transfert ? 'EDIT' : 'ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="transfertAdd" (click)="_transfertAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="transfertAdd && transfert" (click)="_deleteTransfert(transfert?.id)"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Supprimer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:trash'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="transfertForm">
+                <div *ngIf="transfertAdd || transfert" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Lot </p>
+                    <p class="font-semibold p-3">Poids net mq </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span>{{ entreposage?.numero_lot }}</span>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.poids_net_mq }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'poids_net_mq'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="transfertAdd || transfert" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Site de provenance </p>
+                    <p class="font-semibold p-3">Sac mq </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.provenance?.libelle }}</span>
+                      <select *ngIf="transfertAdd" [formControlName]="'site_provenance_id'" id="site_provenance_id" class="w-full">
+                        <option *ngFor="let item of provenances" [value]="item?.id">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.sac_mq }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'sac_mq'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="transfertAdd || transfert" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Site de destination </p>
+                    <p class="font-semibold p-3">Poids net de dechet </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.destination?.libelle }}</span>
+                      <select *ngIf="transfertAdd" [formControlName]="'site_destination_id'" id="site_destination_id" class="w-full">
+                        <option *ngFor="let item of provenances" [value]="item?.id">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.poids_net_dechet }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'poids_net_dechet'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="transfertAdd || transfert" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Statut tirage </p>
+                    <p class="font-semibold p-3">Sac dechet </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.statut_tirage }}</span>
+                      <input *ngIf="transfertAdd" type="text" [formControlName]="'statut_tirage'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.sac_dechet }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'sac_dechet'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="transfertAdd || transfert" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Poids net poussière </p>
+                    <p class="font-semibold p-3">Sac poussière </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.poids_net_poussiere }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'poids_net_poussiere'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.sac_poussiere }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'sac_poussiere'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="transfertAdd || transfert" class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Total sac trié </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!transfertAdd">{{ transfert?.total_sac_trie }}</span>
+                      <input *ngIf="transfertAdd" type="number" [formControlName]="'total_sac_trie'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="!transfertAdd || !transfert" class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3 text-center">(vide)</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

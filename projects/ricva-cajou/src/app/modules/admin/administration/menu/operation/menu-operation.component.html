@@ -1,0 +1,87 @@
+
+
+<div class="bg-gray rounded-xl p-2">
+  <!-- <div class="fuse-vertical-navigation-item-wrapper">
+    <a class="fuse-vertical-navigation-item ng-star-inserted
+    mat-focus-indicator hidden sm:inline-flex rounded-lg" (click)="onMenu('CAMPAGNE')">
+      <div class="fuse-vertical-navigation-item-title-wrapper ng-star-inserted">
+        <div class="fuse-vertical-navigation-item-title">
+          <span>Campagnes</span>
+          <span class="text-right">0</span>
+        </div>
+      </div>
+    </a>
+  </div> -->
+  <button
+    (click)="onMenu('CAMPAGNE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'CAMPAGNE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'CAMPAGNE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    <span class="text-left">Campagnes</span>
+  </button>
+  <button
+    (click)="onMenu('CAMPAGNE-OUTTURN')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'CAMPAGNE-OUTTURN' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'CAMPAGNE-OUTTURN' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    <span class="text-left">Campagnes outturn</span>
+  </button>
+  <button
+    (click)="onMenu('CAMPAGNE-TRANCHE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'CAMPAGNE-TRANCHE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'CAMPAGNE-TRANCHE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    <span class="text-left">Campagnes tranche</span>
+  </button>
+  <button
+    (click)="onMenu('ENTREPOT')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'ENTREPOT' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'ENTREPOT' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Entrepots
+  </button>
+  <button
+    (click)="onMenu('ENTREPOT-ASSIGNE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'ENTREPOT-ASSIGNE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'ENTREPOT-ASSIGNE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Entrepots assignés
+  </button>
+  <button
+    (click)="onMenu('EXPORTATEUR')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'EXPORTATEUR' ? 'bg-primary-50' : 'bg-transparent'}} text-{{interface === 'EXPORTATEUR' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Exportateurs
+  </button>
+  <button
+    (click)="onMenu('VILLE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'VILLE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'VILLE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Villes
+  </button>
+  <button
+    (click)="onMenu('SITE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'SITE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'SITE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Sites
+  </button>
+  <button
+    (click)="onMenu('SITE-ASSIGNE')"
+    mat-flat-button
+    class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button
+      mat-button-base {{interface === 'SITE-ASSIGNE' ? 'bg-primary-100' : 'bg-transparent'}} text-{{interface === 'SITE-ASSIGNE' ? 'primary' : 'gray'}} w-full mt-1"
+  >
+    Sites assignés
+  </button>
+</div>

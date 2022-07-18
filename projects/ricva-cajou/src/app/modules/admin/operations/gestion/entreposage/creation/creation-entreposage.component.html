@@ -1,0 +1,458 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Creer un entreposage
+          </div>
+        </div>
+
+        <!-- FORMS -->
+        <form class="p-4 overflow-hidden" [formGroup]="verticalStepperForm">
+          <mat-vertical-stepper
+            [linear]="true"
+            #stepper
+            #verticalStepper
+            orientation="vertical"
+          >
+            <!-- STEP 1 -->
+            <mat-step
+              [editable]="isEditable"
+              [formGroupName]="'step1'"
+              [stepControl]="verticalStepperForm?.get('step1')!"
+              #verticalStepperStep1
+            >
+              <ng-template matStepLabel>
+                <h3 class="title">Prérequis</h3>
+                <span class="sub-title"
+                  >Identification de la fiche de transfert</span
+                >
+              </ng-template>
+
+              <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+                <!-- CAMPAGNE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Campagne</mat-label>
+                  <mat-select
+                    placeholder="Campagne"
+                    [formControlName]="'campagne_id'"
+                    [errorStateMatcher]="matcher"
+                  >
+                    <ng-container *ngFor="let element of campagnes">
+                      <mat-option [value]="element?.id">
+                        {{ element?.libelle }}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <mat-error *ngIf="verticalStepperForm.get('step1').get('campagne_id').hasError('required')">
+                    {{ errosForm("La spécificité", "F") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- DECHARGEMENT -->
+                <mat-form-field class="w-full">
+                  <mat-label>Déchargement</mat-label>
+                  <input type="text"
+                    matInput
+                    [placeholder]="'Selectionner déchargement'"
+                    [formControlName]="'dechargement_id'"
+                    [errorStateMatcher]="matcher"
+                    [matAutocomplete]="dechargement_id"
+                  />
+
+                  <mat-autocomplete (optionSelected)="setValue($event)" #dechargement_id="matAutocomplete">
+                    <mat-option *ngFor="let element of filterOptions" [value]="element?.num_fiche" [id]="element.id">
+                      {{element?.num_fiche}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="verticalStepperForm.get('step1').get('dechargement_id').hasError('required')">
+                    {{ errosForm("Le chargement") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- NUMERO LOT -->
+                <mat-form-field class="w-full">
+                  <mat-label>Numéro lot</mat-label>
+                  <input
+                    matInput
+                    #input
+                    [placeholder]="'Numéro lot'"
+                    [formControlName]="'numero_lot'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step1').get('numero_lot').hasError('required')">
+                    {{ errosForm("Le numéro de lot") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- DATE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Date de déchargement</mat-label>
+                  <input
+                    matInput
+                    [formControlName]="'date_dechargement'"
+                    [errorStateMatcher]="matcher"
+                    (dateChange)="_onDate()"
+                    [matDatepicker]="date">
+                  <mat-datepicker-toggle
+                      matSuffix
+                      [for]="date"></mat-datepicker-toggle>
+                  <mat-datepicker #date></mat-datepicker>
+                  <mat-error *ngIf="verticalStepperForm.get('step1').get('date_dechargement').hasError('required')">
+                    {{ errosForm("La date de déchargement", "F") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- TICKET DE PESE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Numéro de ticket de pesé</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Numéro de ticket de pesé"
+                    [formControlName]="'numero_ticket_pese'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step1').get('numero_ticket_pese').hasError('required')">
+                    {{ errosForm("Le numéro de ticket de pesé") }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="flex justify-end mt-8">
+                <button
+                  class="px-4 rounded-lg"
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="
+                    verticalStepperStep1.stepControl.pristine ||
+                    verticalStepperStep1.stepControl.invalid
+                  "
+                  type="button"
+                  matStepperNext
+                >
+                  Suivant
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-right'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </mat-step>
+
+            <!-- STEP 2 -->
+            <mat-step
+              [editable]="isEditable"
+              [formGroupName]="'step2'"
+              [stepControl]="verticalStepperForm?.get('step2')!"
+              #verticalStepperStep2
+            >
+              <ng-template matStepLabel>
+                <h3 class="title">Chargement</h3>
+                <span class="sub-title"
+                  >Information relative de la fiche de transfert</span
+                >
+              </ng-template>
+
+              <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+
+                <!-- SAC EN STOCK -->
+                <mat-form-field class="w-full">
+                  <mat-label>Sac en stock</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Sac en stock"
+                    [formControlName]="'sac_en_stock'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('sac_en_stock').hasError('required')">
+                    {{ errosForm("Le sac en stock") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- RECONDITIONNE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Reconditionné</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Reconditionné"
+                    [formControlName]="'reconditionne'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('reconditionne').hasError('required')">
+                    {{ errosForm("Le reconditionnement") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- TARE EMBALLAGE REFRACTION -->
+                <mat-form-field class="w-full">
+                  <mat-label>Tare emballage refraction</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Tare emballage refraction"
+                    [formControlName]="'tare_emballage_refraction'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('tare_emballage_refraction').hasError('required')">
+                    {{ errosForm("Le tare emballage refraction") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- POIDS NET -->
+                <mat-form-field class="w-full">
+                  <mat-label>Poids net (T)</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Poids net"
+                    [formControlName]="'poids_net'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('poids_net').hasError('required')">
+                    {{ errosForm("Le poids net") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- SAC DECHARGE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Sacs déchargés</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Sacs déchargés"
+                    [formControlName]="'sacs_decharge'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('sacs_decharge').hasError('required')">
+                    {{ errosForm("Nombre de sacs déchargés") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- PREMIERE PESEE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Première pesée</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Première pesée"
+                    [formControlName]="'premiere_pesee'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('premiere_pesee').hasError('required')">
+                    {{ errosForm("La première pesée", "F") }}
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- DEUXIEME PESEE -->
+                <mat-form-field class="w-full">
+                  <mat-label>Deuxième pesée</mat-label>
+                  <input
+                    matInput
+                    #input
+                    type="number"
+                    placeholder="Deuxième pesée"
+                    [formControlName]="'deuxieme_pesee'"
+                    [errorStateMatcher]="matcher"
+                  />
+                  <mat-error *ngIf="verticalStepperForm.get('step2').get('deuxieme_pesee').hasError('required')">
+                    {{ errosForm("La deuxième pesée", "F") }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="flex justify-between mt-8">
+                <button
+                  class="px-4 rounded-lg text-primary bg-primary-50"
+                  mat-flat-button
+                  type="button"
+                  matStepperPrevious
+                >
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-left'"
+                  ></mat-icon>
+                  Précedent
+                </button>
+
+                <button
+                  class="px-4 rounded-lg"
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="
+                    verticalStepperStep2.stepControl.pristine ||
+                    verticalStepperStep2.stepControl.invalid
+                  "
+                  type="button"
+                  matStepperNext
+                >
+                  Suivant
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-right'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </mat-step>
+
+            <!-- STEP 3 -->
+            <mat-step
+              [editable]="isEditable"
+              [formGroupName]="'step3'"
+              [stepControl]="verticalStepperForm?.get('step3')!"
+              #verticalStepperStep3
+            >
+              <ng-template matStepLabel>
+                <h3 class="title">Décompte</h3>
+                <span class="sub-title"
+                  >Télécharger la fiche de transfert en PDF</span
+                >
+              </ng-template>
+              <div>
+                <!-- CONTENT GOES HERE -->
+                <div
+                  class="h-80 min-h-80 max-h-80 border border-dashed border-gray-600 rounded-2xl mt-8 sm:mt-4"
+                >
+                  <div class="grid sm:grid-cols-1 gap-6 w-full">
+                    <div
+                      class="flex justify-center mt-4 text-gray-500 font-bold"
+                    >
+                      Glisser, deposer votre document
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <mat-icon
+                        svgIcon="heroicons_outline:cloud-upload"
+                        class="icon-size-20"
+                      ></mat-icon>
+                    </div>
+                    <div
+                      class="flex justify-center mt-2 text-gray-500 font-bold"
+                    >
+                      PDF, PNG ou JPEG, Taille maximale : 2048kb | 2Mb
+                    </div>
+                    <div class="flex justify-center m-4">
+                      <input (change)="onFileSelected($event)"
+                        matInputFile type="file" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between mt-8">
+                <button
+                  class="px-4 rounded-lg text-primary bg-primary-50"
+                  mat-flat-button
+                  type="button"
+                  matStepperPrevious
+                >
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-left'"
+                  ></mat-icon>
+                  Précedent
+                </button>
+
+                <button
+                  class="px-4 rounded-lg"
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="verticalStepperForm.get('step3').invalid"
+                  type="button"
+                  matStepperNext
+                  (click)="confirmeSubmit()"
+                >
+                  Suivant
+                  <mat-icon
+                    class="icon-size-5 mr-2"
+                    [svgIcon]="'heroicons_outline:chevron-right'"
+                  ></mat-icon>
+                </button>
+              </div>
+            </mat-step>
+
+            <ng-template matStepperIcon="done">
+              <mat-icon>done</mat-icon>
+            </ng-template>
+          </mat-vertical-stepper>
+        </form>
+        <!-- FIN FORMS -->
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

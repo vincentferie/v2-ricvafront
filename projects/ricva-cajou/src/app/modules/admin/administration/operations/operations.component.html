@@ -1,0 +1,98 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+        </div>
+        <div class="flex items-center ml-6">
+          <!-- BOUTTON AJOUT -->
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../new']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:document-add'"
+            ></mat-icon>
+            Ajouter
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              [routerLink]="['../new']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Ajouter</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT -->
+    <div class="flex flex-row gap-2">
+      <!-- COL GAUCHE -->
+      <div class="basis-1/4">
+        <app-menu-operation (currentEvent)="interface"></app-menu-operation>
+      </div>
+
+      <!-- COL DROIT -->
+      <div class="basis-11/12">
+        <div class="w-full lg:h-160 lg:min-h-160 lg:max-h-160 md:h-140 md:min-h-140 md:max-h-140 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl">
+          <div *ngIf="interface === 'CAMPAGNE'">
+            <app-list-campagne></app-list-campagne>
+          </div>
+          <div *ngIf="interface === 'CAMPAGNE-OUTTURN'">
+            <app-list-campagne-outturn></app-list-campagne-outturn>
+          </div>
+          <div *ngIf="interface === 'CAMPAGNE-TRANCHE'">
+            <app-list-campagne-tranche></app-list-campagne-tranche>
+          </div>
+          <div *ngIf="interface === 'ENTREPOT'">
+            <app-list-entrepot></app-list-entrepot>
+          </div>
+          <div *ngIf="interface === 'ENTREPOT-ASSIGNE'">
+            <app-list-entrepot-assigne></app-list-entrepot-assigne>
+          </div>
+          <div *ngIf="interface === 'EXPORTATEUR'">
+            <app-list-exportateur></app-list-exportateur>
+          </div>
+          <div *ngIf="interface === 'VILLE'">
+            <app-list-ville></app-list-ville>
+          </div>
+          <div *ngIf="interface === 'SITE'">
+            <app-list-site></app-list-site>
+          </div>
+          <div *ngIf="interface === 'SITE-ASSIGNE'">
+            <app-list-site-assigne></app-list-site-assigne>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

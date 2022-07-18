@@ -1,0 +1,186 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Creer un exportateur
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <form class="p-4 overflow-hidden" [formGroup]="form">
+
+          <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+
+            <!-- RAISON -->
+            <mat-form-field class="w-full">
+              <mat-label>Raison sociale</mat-label>
+              <input
+                matInput
+                #input
+                placeholder="Raison sociale"
+                [formControlName]="'raison'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('raison').hasError('required')">
+                {{ errosForm("Le raison sociale", "F") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- CONTRIBUABLE -->
+            <mat-form-field class="w-full">
+              <mat-label>N° Contribuable</mat-label>
+              <input type="text"
+                matInput
+                placeholder="N° Contribuable"
+                [formControlName]="'contribuable'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('contribuable').hasError('required')">
+                {{ errosForm("Le N° contribuable") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- CONTACT -->
+            <mat-form-field class="w-full">
+              <mat-label>Contact</mat-label>
+              <input type="text"
+                matInput
+                placeholder="Contact"
+                [formControlName]="'contact'"
+                [errorStateMatcher]="matcher">
+              <mat-error *ngIf="form.get('contact').hasError('required')">
+                {{ errosForm("Le contact") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- EMAIL -->
+            <mat-form-field class="w-full">
+              <mat-label>Adresse email</mat-label>
+              <input type="email"
+                matInput
+                placeholder="Adresse email"
+                [formControlName]="'email'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('email').hasError('required')">
+                {{ errosForm("L'adresse email") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- POSTALE -->
+            <mat-form-field class="w-full">
+              <mat-label>Adresse postale</mat-label>
+              <input type="text"
+                matInput
+                placeholder="Adresse postale"
+                [formControlName]="'postal'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('postal').hasError('required')">
+                {{ errosForm("L'adresse postale") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- LIEU -->
+            <mat-form-field class="w-full">
+              <mat-label>Localisation</mat-label>
+              <input type="text"
+                matInput
+                placeholder="Localisation"
+                [formControlName]="'lieu'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('lieu').hasError('required')">
+                {{ errosForm("La localisation", "F") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex justify-end mt-8">
+            <button
+              class="px-4 rounded-lg"
+              mat-flat-button
+              [color]="'primary'"
+              [disabled]="form.invalid"
+              type="button"
+              (click)="confirmeSubmit()"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+        <!-- FIN FORM -->
+
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

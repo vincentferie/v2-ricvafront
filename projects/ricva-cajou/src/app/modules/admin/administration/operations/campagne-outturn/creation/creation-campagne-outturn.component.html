@@ -1,0 +1,163 @@
+<div class="flex flex-col flex-auto">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between px-6 pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <div class="flex sm:hidden">
+            <a
+              class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+            >
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_outline:chevron-left'"
+              ></mat-icon>
+              <span>Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BUTTON RETOUR HISTORIQUE -->
+        <div class="flex items-center ml-6">
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../list']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:view-list'"
+            ></mat-icon>
+            Historique
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="historique"
+              [routerLink]="['../list']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              >
+              </mat-icon>
+              <mat-menu #historique>
+                <button mat-menu-item>Historique</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTENT FORM -->
+  <div class="w-full px-6 py-2 sm:py-4 sm:px-10 dark:bg-transparent">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0"
+    >
+      <div
+        class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card rounded-t-xl overflow-hidden"
+      >
+        <div class="flex flex-col sm:flex-row items-start justify-between">
+          <div
+            class="text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+          >
+            Creer une campagne outturn
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <form class="p-4 overflow-hidden" [formGroup]="form">
+          <div class="grid sm:grid-cols-2 gap-6 w-full mt-8 sm:mt-4">
+            <!-- CAMPAGNE -->
+            <mat-form-field class="w-full">
+              <mat-label>Campagne</mat-label>
+              <mat-select
+                [formControlName]="'campagne_id'"
+                [errorStateMatcher]="matcher"
+              >
+                <ng-container *ngFor="let element of campagnes">
+                  <mat-option [value]="element.id">
+                    {{ element?.libelle }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="form.get('campagne_id').hasError('required')">
+                {{ errosForm("La campagne", "F") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- FLAG -->
+            <mat-form-field class="w-full">
+              <mat-label>Flag</mat-label>
+              <input
+                matInput
+                #input
+                placeholder="Flag"
+                [formControlName]="'flag'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('flag').hasError('required')">
+                {{ errosForm("Le flag") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- MIN OUTTURN -->
+            <mat-form-field class="w-full">
+              <mat-label>Minimum outturn</mat-label>
+              <input
+                matInput
+                #input
+                type="number"
+                [formControlName]="'min_outturn'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('min_outturn').hasError('required')">
+                {{ errosForm("Le minimum outturn") }}
+              </mat-error>
+            </mat-form-field>
+
+            <!-- MAX OUTTURN -->
+            <mat-form-field class="w-full">
+              <mat-label>Maximum outturn</mat-label>
+              <input
+                matInput
+                #input
+                type="number"
+                [formControlName]="'max_outturn'"
+                [errorStateMatcher]="matcher"
+              />
+              <mat-error *ngIf="form.get('max_outturn').hasError('required')">
+                {{ errosForm("Le maximum outturn") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="flex justify-end mt-8">
+            <button
+              class="px-4 rounded-lg"
+              mat-flat-button
+              [color]="'primary'"
+              [disabled]="form.invalid"
+              type="button"
+              (click)="confirmeSubmit()"
+            >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+        <!-- FIN FORM -->
+
+      </div>
+    </div>
+  </div>
+  <!-- FIN CENTENT FORM -->
+</div>

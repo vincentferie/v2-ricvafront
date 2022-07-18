@@ -1,0 +1,294 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- BOUTTON RETOUR -->
+        <div class="flex items-center ml-6">
+          <button
+            [matTooltip]="'Supprimer'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary text-white mr-1"
+            (click)="_delete(booking?.id)"
+          >
+            Supprimer
+            <mat-icon
+              class="icon-size-5 ml-2"
+              [svgIcon]="'heroicons_outline:trash'"
+            ></mat-icon>
+          </button>
+          <button
+            [matTooltip]="'Retour à l\'historique'"
+            [matTooltipPosition]="'above'"
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base bg-primary-50 text-primary"
+            (click)="toBack()"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:chevron-left'"
+            ></mat-icon>
+            Retour
+          </button>
+
+          <div class="sm:hidden">
+            <buttonbutton
+              [matTooltip]="'Retour à l\'historique'"
+              [matTooltipPosition]="'above'"
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              (click)="toBack()"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:chevron-left"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Retour</button>
+              </mat-menu>
+            </buttonbutton>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- CONTENT GOES HERE -->
+    <div
+      class="lg:h-250 lg:min-h-250 lg:max-h-250 md:h-250 md:min-h-250 md:max-h-250 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Détails du booking {{ booking?.numero_reel }}
+        </div>
+      </div>
+
+      <div class="rid grid-rows-3 grid-flow-col sm:grid-cols-2 gap-1 w-full mt-8 sm:mt-4">
+        <div class="grid sm:grid-cols-2 gap-2 w-full mt-8 sm:mt-4">
+          <!-- COL GAUCHE -->
+          <div class="col-span-1">
+            <!-- INFORMATION -->
+            <div class="row-start-2 rounded bg-secondary-light mt-2">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-14 p-3">
+                    Informations
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!infoAdd" (click)="_infoAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_submitInfo()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="infoAdd" (click)="_infoAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="infoForm">
+                <div class="flex">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Numéro réel </p>
+                    <p class="font-semibold p-3">Numéro change </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ booking?.numero_reel }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'numero_reel'" class="w-full">
+                    </p>
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ booking?.numero_change }}</span>
+                      <input *ngIf="infoAdd" type="text" [formControlName]="'numero_change'" class="w-full">
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex border-t">
+                  <div class="flex-1 w-60 divide-y">
+                    <p class="font-semibold p-3">Statut </p>
+                  </div>
+                  <div class="flex-auto w-32 divide-y">
+                    <p class="p-3">
+                      <span *ngIf="!infoAdd">{{ booking?.state === 0 ? 'Encours' : 'Terminer' }}</span>
+                      <select *ngIf="infoAdd" [formControlName]="'state'" id="state" class="w-full">
+                        <option *ngFor="let item of stateBooking" [value]="item?.value">
+                          {{ item?.libelle }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+          <!-- COL DROIT -->
+          <div class="col-span-1">
+            <div class="row-start-1 row-end-3 rounded bg-secondary-light">
+              <!-- ENTETE -->
+              <div class="bg-primary-light font-bold rounded-t p-2">
+                <div class="flex">
+                  <div class="flex-none font-bold w-34 p-3">
+                    Pièce jointe
+                  </div>
+                  <div class="grow"></div>
+                  <div class="flex-none text-primary-600">
+                    <button *ngIf="!fileAdd" (click)="_fileAdd('ADD')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Editer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:pencil'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="fileAdd" (click)="_submitFile()"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600 mr-1"
+                      [matTooltip]="'Enregistrer'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                      ></mat-icon>
+                    </button>
+                    <button *ngIf="fileAdd" (click)="_fileAdd('CANCEL')"
+                      class="bg-primary-light hover:bg-primary-light text-primary-600"
+                      [matTooltip]="'Annuler'"
+                      [matTooltipPosition]="'above'"
+                      mat-flat-button>
+                      <mat-icon
+                        class="icon-size-4 text-primary-600"
+                        [svgIcon]="'heroicons_solid:x'"
+                      ></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AFFICHAGE PDF -->
+              <form [formGroup]="fileForm">
+                <div *ngIf="!fileAdd" class="p-2">
+                  <!-- PREVIEW -->
+                  <div class="row-start-1 p-2">
+                    <div class="flex">
+                      <div class="flex-none w-14 h-full">
+                        <img class="w-10 h-full rounded" src="/assets/images/logo/pdf.svg" alt="Default avatar">
+                      </div>
+                      <div class="flex-initial w-28">
+                        <p class="font-semibold text-xs">Titre </p>
+                        <p class="font-semibold text-xs">Créé le </p>
+                        <p class="font-semibold text-xs">Taille </p>
+                      </div>
+                      <div class="flex-initial w-80">
+                        <p class="text-xs">{{ booking?.file?.filename }}</p>
+                        <p class="text-xs">{{ booking?.file?.created | date: "d/MM/y" : '' : 'fr-FR' }}</p>
+                        <p class="text-xs">0 Kb </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- VIEWER -->
+                  <div class="mt-4 w-full min-h-160">
+                    <ngx-doc-viewer
+                      [url]="env + '/booking/download/' + booking?.file?.filename"
+                      viewer="google"
+                      style="width:100%;height:93vh;"
+                    >
+                    </ngx-doc-viewer>
+                  </div>
+                </div>
+                <div *ngIf="fileAdd">
+                  <div class="grid sm:grid-cols-1 gap-6 w-full">
+                    <div
+                      class="flex justify-center mt-4 text-gray-500 font-bold"
+                    >
+                      Glisser, deposer votre document
+                    </div>
+                    <div class="flex justify-center mt-2">
+                      <mat-icon
+                        svgIcon="heroicons_outline:cloud-upload"
+                        class="icon-size-20"
+                      ></mat-icon>
+                    </div>
+                    <div
+                      class="flex justify-center mt-2 text-gray-500 font-bold"
+                    >
+                      PDF, Taille maximale : 2048kb | 2Mb
+                    </div>
+                    <div class="flex justify-center m-4">
+                      <input (change)="onFileSelected($event)"
+                        matInputFile type="file" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

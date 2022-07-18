@@ -1,0 +1,341 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+  <!-- HEADER -->
+  <div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-6 sm:pb-0 sm:pt-8 sm:px-10 dark:bg-transparent"
+  >
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between w-full py-2 sm:py-3">
+        <div>
+          <!-- BREADCRUMD -->
+          <fuse-breadcrumb [paths]="paths"></fuse-breadcrumb>
+
+          <!-- BOUTTON RETOUR -->
+          <div class="flex sm:hidden">
+            <a class="inline-flex items-center text-secondary font-medium ml-2">
+              <mat-icon
+                class="icon-size-2 text-secondary"
+                [svgIcon]="'heroicons_solid:chevron-left'"
+              ></mat-icon>
+              <span class="ml-1 text-base">Retour</span>
+            </a>
+          </div>
+        </div>
+        <div class="flex items-center ml-6">
+          <!-- BOUTTON REFRESH -->
+          <button
+            mat-icon-button
+            class="mr-8"
+            matTooltip="rafraîchir"
+            [matTooltipPosition]="'above'"
+            (click)="refresh()"
+          >
+            <mat-icon svgIcon="heroicons_outline:refresh"></mat-icon>
+          </button>
+          <!-- BOUTTON AJOUT -->
+          <button
+            mat-flat-button
+            class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+            [routerLink]="['../new']"
+          >
+            <mat-icon
+              class="icon-size-5 mr-2"
+              [svgIcon]="'heroicons_outline:document-add'"
+            ></mat-icon>
+            Ajouter
+          </button>
+
+          <div class="sm:hidden">
+            <button
+              mat-icon-button
+              class="mat-focus-indicator mat-menu-trigger mat-icon-button mat-button-base"
+              [matMenuTriggerFor]="ajouter"
+              [routerLink]="['../new']"
+            >
+              <mat-icon
+                class="mat-icon notranslate mat-icon-no-color"
+                svgIcon="heroicons_outline:dots-vertical"
+              ></mat-icon>
+              <mat-menu #ajouter>
+                <button mat-menu-item class="text-base">Ajouter</button>
+              </mat-menu>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div
+    class="flex-auto px-6 py-2 sm:py-4 sm:px-10 rounded dark:bg-transparent"
+    fuseScrollbar
+    [fuseScrollbarOptions]="{
+      wheelPropagation: true,
+      suppressScrollX: true
+    }"
+  >
+    <!-- FORM FILTER -->
+    <div
+      class="lg:h-25 lg:min-h-40 lg:max-h-25 md:h-25 md:min-h-25 md:max-h-25 flex flex-col sm:flex-auto p-4 rounded-xl bg-primary-100 mb-2"
+    >
+      <span class="text-primary font-bold m-2">Filtre</span>
+      <fuse-card class="flex flex-col w-full filter-article min-h-24 max-h-10">
+        <div
+          class="flex flex-col flex-auto p-4 bg-card rounded overflow-hidden"
+        >
+          <div class="flex flex-row gap-6">
+            <div class="basis-11/12">
+              <!-- CAMPAGNE -->
+              <mat-form-field class="fuse-mat-no-subscript w-full">
+                <mat-select
+                  [formControl]="formFiltre"
+                  [placeholder]="'Campagne'"
+                >
+                  <ng-container *ngFor="let element of campagnes">
+                    <mat-option value="{{ element.id }}">{{
+                      element.libelle
+                    }}</mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="basis-1/2">
+              <button
+                type="submit"
+                (click)="_filter()"
+                class="mat-focus-indicator hidden sm:inline-flex rounded-lg mat-flat-button mat-button-base mat-primary"
+              >
+                <mat-icon
+                  class="icon-size-5 mr-2"
+                  [svgIcon]="'heroicons_outline:search'"
+                ></mat-icon>
+                Filtrer
+              </button>
+            </div>
+          </div>
+        </div>
+      </fuse-card>
+    </div>
+
+    <!-- CONTENT -->
+    <div
+      class="lg:h-160 lg:min-h-160 lg:max-h-160 md:h-140 md:min-h-140 md:max-h-140 sm:col-span-2 md:col-span-4 flex flex-col sm:flex-auto p-6 bg-card rounded-t-xl"
+    >
+      <!-- TITLE AND SEARCH -->
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <div
+          class="mt-4 sm:mt-4 text-primary-600 text-lg font-medium tracking-tight leading-6 truncate"
+        >
+          Historique des dechargements
+        </div>
+        <div class="mt-4 sm:mt-4 sm:ml-2 input-search">
+          <mat-form-field [ngClass]="formFieldHelpers">
+            <input
+              matInput
+              [placeholder]="'Rechercher'"
+              #input
+              [formControl]="search"
+              [autocomplete]="'on'"
+            />
+            <mat-icon
+              class="icon-size-5"
+              matPrefix
+              [svgIcon]="'heroicons_outline:search'"
+            ></mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div
+        class="relative sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent"
+      >
+        <div class="flex flex-auto overflow-hidden">
+          <div
+            class="py-1 flex flex-col flex-auto sm:mb-1 overflow-hidden sm:overflow-y-auto overflow-y-auto"
+          >
+            <div class="flex flex-col flex-auto overflow-hidden">
+              <ng-container *ngIf="dechargements$ | async as lists">
+                <ng-container *ngIf="lists.length > 0; else noElements">
+                  <div class="datatable grid">
+                    <!-- ENTETE -->
+                    <div
+                      class="table-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 text-md font-semibold text-secondary bg-primary-200 rounded-lg dark:bg-black dark:bg-opacity-5"
+                      matSort
+                      matSortDisableClear
+                    >
+                      <div
+                        *ngFor="let header of headers"
+                        class="{{ header.class }}"
+                        [mat-sort-header]="header.value"
+                        [matTooltip]="header.name"
+                        [matTooltipPosition]="'above'"
+                      >
+                        {{ header.label }}
+                      </div>
+                      <div class="sm:block">Action</div>
+                    </div>
+                    <!-- FIN ENTETE -->
+
+                    <!-- LOADER -->
+                    <div
+                      class="relative inset-x-0 bottom-0"
+                      *ngIf="isLoading"
+                      #targetScrollUp
+                    >
+                      <mat-progress-bar
+                        [mode]="'indeterminate'"
+                      ></mat-progress-bar>
+                    </div>
+                    <!-- FIN LOADER -->
+
+                    <!-- DONNEES -->
+                    <div
+                      fuseScrollbar
+                      [fuseScrollbarOptions]="{
+                        wheelPropagation: true,
+                        suppressScrollX: true
+                      }"
+                      class="relative flex flex-col sm:flex-auto max-h-100 sm:pt-3 sm:pb-2"
+                      #rowsZone
+                    >
+                      <ng-container *ngIf="dechargements$ | async as lists">
+                        <ng-container
+                          *ngFor="let element of lists; trackBy: trackByFn"
+                        >
+                          <div
+                            class="table-grid grid items-center gap-4 py-3 px-6 md:px-8 datatable-rows"
+                          >
+                            <div
+                              class="flex items-center datatable-column"
+                              (click)="toggleDetails(element)"
+                            >
+                              {{ element?.num_fiche }}
+                            </div>
+
+                            <div
+                              class="hidden lg:block truncate datatable-column"
+                              (click)="toggleDetails(element)"
+                            >
+                              {{ element?.speculation?.libelle }}
+                            </div>
+
+                            <div
+                              class="hidden lg:block truncate datatable-column w-30"
+                              (click)="toggleDetails(element)"
+                            >
+                              {{ element?.superviseur?.nom + " " +  element?.superviseur?.prenoms }}
+                            </div>
+
+                            <div
+                              class="hidden lg:block datatable-column"
+                              (click)="toggleDetails(element)"
+                            >
+                              {{ element?.entrepot?.libelle }}
+                            </div>
+
+                            <div
+                              class="flex items-center datatable-column w-22"
+                              (click)="toggleDetails(element)"
+                            >
+                              {{ element?.date_dechargement | date: "d-MM-y"}}
+                            </div>
+
+                            <div
+                              class="hidden md:block datatable-column"
+                              (click)="toggleDetails(element)"
+                            >
+                              <!-- STATUT -->
+                              <span *ngIf="element?.statut === 0" class="bg-red-500 text-white text-xs font-medium
+                                mr-2 px-2.5 py-0.5 rounded dark:bg-red-500 dark:text-white">
+                                Rejeter
+                              </span>
+                              <span *ngIf="element?.statut === 1" class="bg-green-500 text-white text-xs font-medium
+                                mr-2 px-2.5 py-0.5 rounded dark:bg-green-500 dark:text-white">
+                                Valider
+                              </span>
+                              <span *ngIf="element?.statut === 2" class="bg-yellow-500 text-white text-xs font-medium
+                                mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-500 dark:text-white">
+                                Refraction
+                              </span>
+                            </div>
+
+                            <div
+                              class="hidden md:block datatable-column"
+                              (click)="toggleDetails(element)"
+                            >
+                              <!-- VALIDITY -->
+                              <button *ngIf="element?.validity" class="bg-green-500 text-white text-xs font-medium
+                              mr-2 px-2.5 py-0.5 rounded dark:bg-green-500 dark:text-white">
+                                Certifié
+                              </button>
+                              <button *ngIf="!element?.validity" class="bg-red-500 text-white text-xs font-medium
+                              mr-2 px-2.5 py-0.5 rounded dark:bg-red-500 dark:text-white">
+                                Non certifié
+                              </button>
+                            </div>
+
+                            <!-- ACTION -->
+                            <div class="flex items-end ml-4">
+                              <button
+                                class="min-w-5 min-h-5 h-7 px-2 leading-6 bg-primary-500 rounded text-center"
+                                (click)="removeElement(element.id)"
+                                mat-icon-button
+                              >
+                                <mat-icon
+                                  class="icon-size-4 text-white"
+                                  svgIcon="heroicons_outline:trash"
+                                ></mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <!-- FIN DONNEES -->
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #noElements>
+                <div
+                  class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center"
+                >
+                  <ng-container *transloco="let t">
+                    {{ t("no-elements") }}
+                  </ng-container>
+                </div>
+              </ng-template>
+              <div class="datatable-paginator">
+                <mat-toolbar>
+                  <mat-toolbar-row
+                    class="justify-between dark:bg-transparent items-center"
+                  >
+                    <mat-paginator
+                      class="paginator"
+                      [ngClass]="{ 'pointer-events-none': isLoading }"
+                      [length]="paginationDechargement?.totalItems"
+                      [pageSize]="paginationDechargement?.itemsPerPage"
+                      [pageSizeOptions]="[5, 10, 15, 20, 100]"
+                      [showFirstLastButtons]="false"
+                    ></mat-paginator>
+                    <button
+                      class="mat-focus-indicator rounded-full mat-flat-button mat-button-base"
+                      mat-flat-button
+                      (click)="scrollToTop()"
+                      matTooltip="Remonter la liste"
+                      [matTooltipPosition]="'above'"
+                    >
+                      <mat-icon
+                        [svgIcon]="'heroicons_outline:chevron-double-up'"
+                      ></mat-icon>
+                    </button>
+                  </mat-toolbar-row>
+                </mat-toolbar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

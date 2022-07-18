@@ -1,0 +1,65 @@
+/* ----------------------------------------------------------------------------------------------------- */
+/*  @ Stepper viewer
+/* ----------------------------------------------------------------------------------------------------- */
+body.light .mat-step-header .mat-step-icon-selected,
+body .light .mat-step-header .mat-step-icon-selected {
+  background-color: #0071bc !important;
+}
+
+.mat-vertical-stepper-header .mat-step-icon.mat-step-icon-selected {
+  width: 44px !important;
+  height: 44px !important;
+  margin-left: 0;
+}
+
+.mat-vertical-stepper-header .mat-step-icon {
+  margin-right: 12px;
+}
+
+.mat-vertical-stepper-header .mat-step-icon {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+  margin-left: 4px;
+}
+
+.mat-step-icon {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mat-step-label-selected .title {
+  color: rgba(var(--fuse-text-default-rgb), var(--tw-text-opacity)) !important;
+}
+
+.mat-step-text-label .title {
+  font-size: 1rem;
+}
+
+.mat-step-label-selected .sub-title {
+  color: rgba(
+    var(--fuse-text-secondary-rgb),
+    var(--tw-text-opacity)
+  ) !important;
+  display: block;
+}
+
+.mat-step-text-label .sub-title {
+  font-size: 0.75rem;
+}
+
+body.light .mat-step-header .mat-step-icon-state-done,
+body .light .mat-step-header .mat-step-icon-state-done,
+body.light .mat-step-header .mat-step-icon-state-edit,
+body .light .mat-step-header .mat-step-icon-state-edit {
+  color: #0071bc !important;
+}
+
+body.light .mat-step-header .mat-step-icon,
+body .light .mat-step-header .mat-step-icon {
+  background-color: #d5eeff;
+  color: #d5eeff;
+}
